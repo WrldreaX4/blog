@@ -8,23 +8,37 @@
 
 </head>
 <body>
+    <nav class="navbar">
+        <p>PostPonder.</p>
+        <ul class="links-container">
+            <li class="link-item"><a href="/dashboard" class="link">home</a></li>
+            <li class="link-item"><a href="/editor" class="link">Create</a></li>
+            <li class="link-item"><a href="/summary" class="link">Summary</a></li>
+            <li class="link-item"><a (click)="logout()" class="link">Logout</a></li>
+        </ul>
+    </nav>
 
     <div class="banner">
-        <input type="file" accept="image/*" id="banner-upload" hidden>
-        <label for="banner-upload" class="banner-upload-btn"><img src="assets/upload.png" alt="upload banner"></label>
-    </div>
+        <div class="container">
+            <h3 class="add">Add Your Blog Here....</h3>
+            <form>
+            
+        <div class="blog">
+            <textarea type="text" class="title form-control" placeholder="Blog Title..."></textarea>
+            <input type="text" class="author form-control" placeholder="Author">
     
-    <div class="blog">
-        <textarea type="text" class="title" placeholder="Title..."></textarea>
-        <textarea type="text" class="article" placeholder="Start writing here..."></textarea>
+            <textarea type="text" class="article form-control" placeholder="Start writing here..."></textarea>
+        </div>
+    
+        <div class="blog-options">
+            <button type="submit" class="btn dark publish-btn">Publish</button>
+            <a href="/dashboard" class="btn dark publish-btn">Back</a>
+        </div>
+    </form>
+    </div>
     </div>
 
-    <div class="blog-options">
-        <button class="btn dark publish-btn">publish</button>
-        <input type="file" accept="image/*" id="image-upload" hidden>
-        <label for="image-upload" class="btn grey upload-btn">Upload Image</label>
-    </div>
-
+    
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
 

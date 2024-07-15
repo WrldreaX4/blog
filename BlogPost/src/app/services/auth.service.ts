@@ -73,6 +73,9 @@ export class AuthService {
       const decodedToken = this.decodeToken(token);
       if (decodedToken) {
         this.currentUserSubject.next(decodedToken.data);
+      } else {
+        // Handle the case where the token is invalid
+        console.error('Failed to decode token');
       }
     }
   }
@@ -82,13 +85,6 @@ export class AuthService {
       return localStorage.getItem(this.tokenKey);
     }
     return null;
-  }
-
-  getCollage(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/api/getImage`)
-      .pipe(
-        catchError(this.handleError)
-      );
   }
 
   isAuthenticated(): boolean {
@@ -110,10 +106,6 @@ export class AuthService {
       this.currentUserSubject.next(null);
       this.router.navigate(['/login']);
     }
-  }
-
-  private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
   }
 
   private decodeToken(token: string): any {
