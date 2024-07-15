@@ -3,15 +3,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { isBrowser, isLocalStorageAvailable } from '../shared/environment.utils';
 import { Router } from '@angular/router';
-
+import { isLocalStorageAvailable } from '../shared/environment.utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'https://gcccsarco.online/arcoapi';
+  private baseUrl = 'http://localhost/post/text/api';
   private tokenKey = 'jwt';
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -19,23 +18,28 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       const token = this.getToken();
       if (token) {
-        this.currentUserSubject.next(this.decodeToken(token).data);
+        const decodedToken = this.decodeToken(token);
+        if (decodedToken) {
+          this.currentUserSubject.next(decodedToken.data);
+        }
       }
     }
   }
 
   userLogin(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login.php`, data)
-     .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.post<any>(`${this.baseUrl}/login.php`, data, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   userSignUp(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/signup.php`, data)
-     .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.post<any>(`${this.baseUrl}/signup.php`, data, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -49,6 +53,9 @@ export class AuthService {
         case 401:
           errorMessage = 'Invalid username or password.';
           break;
+        case 403:
+          errorMessage = 'Access forbidden.';
+          break;
         case 404:
           errorMessage = 'No user matched.';
           break;
@@ -60,11 +67,13 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-
   setToken(token: string): void {
     if (isPlatformBrowser(this.platformId) && isLocalStorageAvailable()) {
       localStorage.setItem(this.tokenKey, token);
-      this.currentUserSubject.next(this.decodeToken(token).data);
+      const decodedToken = this.decodeToken(token);
+      if (decodedToken) {
+        this.currentUserSubject.next(decodedToken.data);
+      }
     }
   }
 
@@ -99,7 +108,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId) && isLocalStorageAvailable()) {
       localStorage.removeItem(this.tokenKey);
       this.currentUserSubject.next(null);
-      this.router.navigate(['/login']); 
+      this.router.navigate(['/login']);
     }
   }
 
@@ -107,17 +116,19 @@ export class AuthService {
     return isPlatformBrowser(this.platformId);
   }
 
-  // Decode the JWT token
   private decodeToken(token: string): any {
     try {
-      return JSON.parse(atob(token.split('.')[1]));
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        throw new Error('Invalid token format');
+      }
+      return JSON.parse(atob(parts[1]));
     } catch (e) {
       console.error('Invalid token format:', e);
       return null;
     }
   }
 
-  // Check if the token is expired
   private isTokenExpired(token: string): boolean {
     const decodedToken = this.decodeToken(token);
     if (decodedToken && decodedToken.exp) {
@@ -128,7 +139,6 @@ export class AuthService {
     return true;
   }
 
-  // userid getter
   getCurrentUser(): Observable<any> {
     return this.currentUserSubject.asObservable();
   }

@@ -15,6 +15,7 @@ body{
     position: relative;
     height: fit-content;
     padding-bottom: 0;
+
 }
 
 .article, .title{
@@ -39,7 +40,7 @@ body{
 
 .article *{
     margin: 30px 0;
-    color: #2d2d2d;
+    color: #8f8f8f;
 }
 
 .article-image{
@@ -58,7 +59,7 @@ body{
     margin-top: 80px;
 }
 ::selection{
-    background: #1b1b1b;
+    background: #a2a2a2;
     color: #fff;
 }
 
@@ -170,10 +171,12 @@ body{
     color: #fff;
     font-size: 16px;
     margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+
 }
 .btn.dark:hover{
     background-color: #bebebe;
-    color: #5E7D8C;
 }
 .banner{
     width: 100%;
@@ -235,6 +238,8 @@ textarea::-webkit-scrollbar-thumb{
     border: none;
     padding: 10px;
     border-radius: 10px;
+    border: 2px solid #e0e0e0 ;
+
 
 }
 
@@ -278,10 +283,11 @@ textarea::-webkit-scrollbar-thumb{
     margin-left: 20px;
     font-size: 16px;
     margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
 
 }
 
 .btn.grey:hover{
     background-color: #bebebe;
-    color: #5E7D8C;
 }

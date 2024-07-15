@@ -16,7 +16,7 @@
         <ul class="links-container">
             <li class="link-item"><a href="/dashboard" class="link">home</a></li>
             <li class="link-item"><a href="/editor" class="link">Create</a></li>
-            <li class="link-item"><a href="/about" class="link">Summary</a></li>
+            <li class="link-item"><a href="/summary" class="link">Summary</a></li>
             <li class="link-item"><a (click)="logout()" class="link">Logout</a></li>
         </ul>
     </nav>
@@ -25,7 +25,7 @@
         <div class="content">
             <h1 class="heading">
                 <span class="small">welcome to</span>
-                <span class="no-fill">PostPonder</span>
+                Post<span class="no-fill">Ponder</span>
                 <p>Journey through Words, Explore New Worlds.</p>
             </h1>
             <a href="/editor" class="btn">Create a blog</a>
@@ -34,12 +34,16 @@
 
     <!-- blog section -->
     <section class="blogs-section">
-        <!-- <div class="blog-card">
-            <img src="img/header.png" class="blog-image" alt="">
-            <h1 class="blog-title">Lorem ipsum dolor sit amet consectetur.</h1>
-            <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
-            <a href="/" class="btn dark">read</a>
-        </div> -->
+        <div class="blog-card">
+            <img src="assets/mickey mouse re.jpg" class="blog-image" alt="">
+            <h1 class="blog-title">Mickey Mouse.</h1>
+            <p class="blog-overview">
+                Mickey Mouse, created by Walt Disney and Ub Iwerks, debuted in "Steamboat Willie" in 1928 and quickly became an iconic figure in animation. Known for his cheerful personality and distinctive red shorts, yellow shoes, and white gloves, Mickey embodies the spirit of joy and adventure. As the mascot of The Walt Disney Company, he continues to delight audiences worldwide with his timeless charm.</p>
+            <a href="/" class="btn dark"><i class='bx bx-book-reader' ></i></a>
+            <a href="/" class="btn dark"><i class='bx bx-edit-alt' ></i></a>
+            <a href="/" class="btn dark"><i class='bx bxs-trash' ></i></a>
+        </div> 
+
     </section>
 
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
