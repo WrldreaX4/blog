@@ -10,6 +10,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(withFetch(), withInterceptors([customInterceptor])), 
+    provideHttpClient(withFetch(), withInterceptors([customInterceptor]))
   ]
 };

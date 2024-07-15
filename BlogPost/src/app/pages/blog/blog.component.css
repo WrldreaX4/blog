@@ -128,10 +128,6 @@ body{
     color: transparent;
     -webkit-text-stroke: 2px #5E7D8C;
 }
-.heading p{
-    font-size: 20px;
-    margin-bottom: -60px;
-}
 
 .btn{
     padding: 20px 30px;

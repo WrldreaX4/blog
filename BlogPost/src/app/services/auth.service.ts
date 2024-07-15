@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost/blogAPI/api/';
+  private baseUrl = 'https://gcccsarco.online/arcoapi';
   private tokenKey = 'jwt';
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
