@@ -14,7 +14,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    overflow: hidden;
+    background-image: url(/assets/background.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
