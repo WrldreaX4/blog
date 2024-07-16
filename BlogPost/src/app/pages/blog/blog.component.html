@@ -19,24 +19,20 @@
     
     <div class="banner"></div>
 
-    <div class="blog">
-        <h1 class="title"></h1>
-        <p class="published"><span>published at - </span></p>
-        <div class="article">
-            
+    <!-- blog section -->
+    <div class="container">
+        <div class="blog-post">
+            <h1 class="title">{{ postForm.title }}</h1>
+            <p class="author">by {{ postForm.author }}</p>
+            <div class="content">
+                <p>{{ postForm.content }}</p>
+            </div>
+            <div class="content">
+                <p>{{ postForm.date_created }}</p>
+            </div>
         </div>
     </div>
-
-    <h1 class="sub-heading">Read more</h1>
-
-    <!-- blog section -->
-    <section class="blogs-section">
-        <div class="blog-card">
-            <h1 class="blog-title">Lorem ipsum dolor sit amet consectetur.</h1>
-            <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
-            <a href="/dashboard" class="btn dark">read</a>
-        </div>
-    </section>
+        
 
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>

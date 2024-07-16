@@ -5,17 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog : Homepage</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
-
 </head>
 <body>
-
     <nav class="navbar">
         <p><a href="/dashboard" class="links">PostPonder.</a></p>        
         <ul class="links-container">
             <li class="link-item"><a href="/summary" class="link">Summary</a></li>
-            <li class="link-item"><a (click)="logout()" class="link">Logout</a></li>
+            <li class="link-item"><a href="/blog" class="link">Blog</a></li>
+
+            <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
         </ul>
     </nav>
 
@@ -28,27 +27,26 @@
             </h1>
             <a href="/editor" class="btn">Create a blog</a>
         </div>
-        
     </header>
     
     <!-- blog section -->
     <section class="blogs-section">
-        <div class="blog-card">
-            <h1 class="blog-title">Mickey Mouse.</h1>
-            <p class="blog-overview">
-                Mickey Mouse, created by Walt Disney and Ub Iwerks, debuted in "Steamboat Willie" in 1928 and quickly became an iconic figure in animation. Known for his cheerful personality and distinctive red shorts, yellow shoes, and white gloves, Mickey embodies the spirit of joy and adventure. As the mascot of The Walt Disney Company, he continues to delight audiences worldwide with his timeless charm.</p>
-            <a href="/blog" class="btn dark"><i class='bx bx-book-reader' ></i></a>
-            <a href="/" class="btn dark"><i class='bx bx-edit-alt' ></i></a>
-            <a href="/" class="btn dark"><i class='bx bxs-trash' ></i></a>
-        </div> 
-
+        <div class="blog-card" *ngFor="let entry of postForm">
+            <div class="laman row my-3">
+                <div class="col-md-9">
+                    <div class="details-p">
+                        <h1 class="blog-title">{{ entry.title }}</h1>
+                        <p class="blog-overview">{{ entry.content }}</p>
+                    </div>
+                    <p class="blog-overview">{{ entry.author }}</p>
+                </div>
+                <div class="displaybutton col-md-3 text-right">
+                    <button class="btn dark" [routerLink]="['/blog', entry.post_Id]"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="btn dark" [routerLink]="['/edit-post', entry.post_Id]"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="btn dark" (click)="deletePost(entry.post_Id)"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
     </section>
-
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
-
-    <script src="js/firebase.js"></script>
-    <script src="js/home.js"></script>
-    
 </body>
 </html>
