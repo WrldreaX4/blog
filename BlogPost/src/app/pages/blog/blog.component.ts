@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-blog',
@@ -8,5 +9,11 @@ import { Component } from '@angular/core';
   styleUrl: './blog.component.css'
 })
 export class BlogComponent {
-
+  constructor(private authService: AuthService){
+  
+  }
+  
+  logout(): void {
+    this.authService.logout();
+  }
 }

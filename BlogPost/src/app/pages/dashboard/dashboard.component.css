@@ -77,11 +77,15 @@ body{
     color: #5E7D8C;
     z-index: 9;
 }
-.navbar p{
+.navbar p a{
     font-size: 20px;
     font-weight: 700;
     color: #5E7D8C;
     letter-spacing: 8px;
+    display: flex;
+    list-style: none;
+    text-decoration: none;
+
 }
 
 .links-container{
@@ -137,18 +141,6 @@ body{
     color: #a5a5a5;
 }
 
-.btn{
-    padding: 20px 30px;
-    border-radius: 50px;
-    background: #5E7D8C;
-    color: #fff;
-    text-decoration: none;
-    text-transform: capitalize;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-
-}
-
 .btn:hover{
     background-color: #bebebe;
 }
@@ -165,6 +157,7 @@ body{
     color: #fff;
     justify-content: center;
     margin-left: 10px;
+
 }
 .blog-card a:hover{
     background-color: #a5a5a5;
@@ -175,12 +168,18 @@ body{
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 10px;
+    
 }
 
 .blog-overview{
     margin: 10px 0 20px;
     line-height: 30px;
     padding: 10px;
+}
+.blog-card{
+    border: 1px solid #5E7D8C;
+    padding: 30px;
+
 }
 
 .btn.dark i{
@@ -289,3 +288,12 @@ textarea::-webkit-scrollbar-thumb{
     margin-left: 20px;
     font-size: 14px;
 }
+.btn{
+    padding: 20px 30px;
+    border-radius: 50px;
+    background: #5E7D8C;
+    color: #fff;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+

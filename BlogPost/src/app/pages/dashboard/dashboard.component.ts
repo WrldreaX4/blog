@@ -17,4 +17,18 @@ export class DashboardComponent {
     this.authService.logout();
   }
   
+  openNotif() {
+    const container = document.getElementById('container');
+    if (container) {
+      container.style.opacity = '1';
+    }
+  
+  }
+  closeNotif() {
+    const container = document.getElementById('container');
+    if (container) {
+      container.style.opacity = '0';
+    }
+  
+  }
   }

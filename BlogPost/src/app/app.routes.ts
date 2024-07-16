@@ -6,6 +6,8 @@ import { authGuard } from './auth.guard';
 import { BlogComponent } from './pages/blog/blog.component';
 import { EditorComponent } from './pages/editor/editor.component';
 import { SummaryComponent } from './pages/summary/summary.component';
+import { ViewPostComponent } from './pages/view-post/view-post.component';
+import { EditPostComponent } from './pages/edit-post/edit-post.component';
 
 export const routes: Routes = [
 
@@ -14,7 +16,14 @@ export const routes: Routes = [
         redirectTo: '/dashboard',
         pathMatch: 'full'
       },
- 
+      /****{
+        path: 'login',
+        component: LoginComponent
+    },
+    {
+        path: 'signup',
+        component: SignupComponent
+    },*/
     {
         path: 'dashboard',
         component: DashboardComponent
@@ -30,5 +39,13 @@ export const routes: Routes = [
     {
         path: 'summary',
         component: SummaryComponent
+    },
+    {
+        path: 'blogs/:id',
+        component: ViewPostComponent
+    },
+    {
+        path: 'editblog/:id',
+        component: EditPostComponent
     },
 ];
