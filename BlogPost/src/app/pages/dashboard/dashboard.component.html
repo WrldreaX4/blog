@@ -11,42 +11,35 @@
     <nav class="navbar">
         <p><a href="/dashboard" class="links">PostPonder.</a></p>        
         <ul class="links-container">
+            <li class="link-item"><a href="/editor" class="link">Create</a></li>
             <li class="link-item"><a href="/summary" class="link">Summary</a></li>
-            <li class="link-item"><a href="/blog" class="link">Blog</a></li>
+            <li class="link-item"><a href="/profile" class="link">Profile</a></li>
 
-            <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
+            <li class="link-item"><a href="#" (click)="logout()" class="link">
+               Logout</a></li>
         </ul>
     </nav>
 
     <header class="header">
         <div class="content">
-            <h1 class="heading">
-                <span class="small">welcome to</span>
-                Post<span class="no-fill">Ponder</span>
-                <p>Journey through Words, Explore New Worlds.</p>
-            </h1>
-            <a href="/editor" class="btn">Create a blog</a>
+            <h2 style="font-style: italic">POSTPONDER</h2>
+			<h2>Constructive Thinking</h2>
+			<p>Post Ponder: Igniting Thoughts, Inspiring Posts!.</p>
         </div>
     </header>
-    
     <!-- blog section -->
+
     <section class="blogs-section">
-        <div class="blog-card" *ngFor="let entry of postForm">
-            <div class="laman row my-3">
-                <div class="col-md-9">
-                    <div class="details-p">
-                        <h1 class="blog-title">{{ entry.title }}</h1>
-                        <p class="blog-overview">{{ entry.content }}</p>
-                    </div>
-                    <p class="blog-overview">{{ entry.author }}</p>
-                </div>
-                <div class="displaybutton col-md-3 text-right">
-                    <button class="btn dark" [routerLink]="['/blog', entry.post_Id]"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <button class="btn dark" [routerLink]="['/edit-post', entry.post_Id]"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn dark" (click)="deletePost(entry.post_Id)"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            </div>
+        <div class="blog-card" *ngFor="let blog of blogs">
+            <h1 class="blog-title">{{ blog.title }}</h1>
+            <p class="blog-overview">{{ blog.content }}</p>
+            <p class="blog-author">{{ blog.author }}</p>
+            <a href="/blog" class="btn dark">read</a>
         </div>
+
+        
+
     </section>
+
 </body>
 </html>

@@ -29,10 +29,18 @@
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "prerender": false,
+           "ssr": false,
+            "allowedCommonJsDependencies": [
+              "canvg",
+              "core-js",
+              "html2canvas",
+              "dompurify",
+              "raf",
+              "rgbcolor",
+              "interactjs",
+              "pako"
+            ]
           },
           "configurations": {
             "production": {
@@ -92,8 +100,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js",
-              "https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js",
               "app/assets/js/home.js",
               "app/assets/js/editor.js",
               "app/assets/js/firebase.js",

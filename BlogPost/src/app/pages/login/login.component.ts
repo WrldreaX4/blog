@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',

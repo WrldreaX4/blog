@@ -8,6 +8,7 @@ import { EditorComponent } from './pages/editor/editor.component';
 import { SummaryComponent } from './pages/summary/summary.component';
 import { ViewPostComponent } from './pages/view-post/view-post.component';
 import { EditPostComponent } from './pages/edit-post/edit-post.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
 
@@ -47,5 +48,9 @@ export const routes: Routes = [
     {
         path: 'editblog/:id',
         component: EditPostComponent
+    },
+    {
+        path: 'profile',
+        component: ProfileComponent
     },
 ];

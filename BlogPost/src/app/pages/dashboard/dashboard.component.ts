@@ -23,7 +23,9 @@ interface Post {
 export class DashboardComponent implements AfterViewInit, OnDestroy, OnInit {
   userId: number | null = null;
   postForm: Post[] = [];
+  blogs: any[] = [];
   private userSubscription: Subscription | null = null;
+
 
   constructor(
     private http: HttpClient, 
@@ -76,7 +78,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, OnInit {
 
   retrievePost(): void {
     if (this.userId !== null) {
-      this.http.get(`http://localhost/post/text/api/postall/${this.userId}`).subscribe(
+      this.http.get(`http://localhost/post/text/api/get_post`).subscribe(
         (resp: any) => {
           console.log('Posts:', resp); 
           this.postForm = resp.data;
