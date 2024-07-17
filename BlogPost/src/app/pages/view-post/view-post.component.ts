@@ -22,7 +22,7 @@ export class ViewPostComponent implements OnInit {
   post_Id: number = 0;
   errorMessage: string = '';
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -62,10 +62,10 @@ export class ViewPostComponent implements OnInit {
   }
 
   downloadPDF(): void {
-    const reportData = document.querySelector('.reportdata') as HTMLElement;
+    const blog = document.querySelector('.blog') as HTMLElement;
 
-    if (reportData) {
-      html2canvas(reportData, { scale: 2, useCORS: true }).then((canvas) => {
+    if (blog) {
+      html2canvas(blog, { scale: 2, useCORS: true }).then((canvas) => {
         const pdfWidth = canvas.width + 80;
         const pdfHeight = canvas.height + 80;
 
@@ -85,10 +85,7 @@ export class ViewPostComponent implements OnInit {
       console.error('The report data container was not found.');
     }
   }
-
-  logout(): void {
-    // Implement your logout logic here
-    // For example, if using AuthService, call logout method
-    // this.authService.logout();
-  }
+    logout(): void {
+      this.authService.logout();
+    }
 }

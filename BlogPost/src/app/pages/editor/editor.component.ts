@@ -44,7 +44,7 @@ export class EditorComponent implements OnInit {
         .subscribe(
           (resp: any) => {
             alert('Post submitted:');
-            this.router.navigate(['/blogs/']);
+            this.router.navigate(['blogs']);
           },
           (error: any) => {
             console.error('Error submitting Blog:', error);

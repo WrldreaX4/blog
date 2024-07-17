@@ -25,28 +25,23 @@
         <label for="banner-upload" class="banner-upload-btn">
             <img src="assets/upload.png" alt="upload banner">
         </label>
+        
     </div>
-
+    <div class="container">
     <form>
-        <div class="blog reportdata" *ngIf="post">
+        <div class="blog" *ngIf="post">
             <h1 class="title">{{ post.title }}</h1>
             <p class="author">Published By: {{ post.author }}</p>
             <p class="article">{{ post.content }}</p>
         </div>
+      
     </form>
-
+    </div>
     <div class="blog-options" *ngIf="post">
         <button class="btn dark publish-btn" [routerLink]="['/editblog', post.post_Id]" type="button">Edit</button>
         <button class="btn dark publish-btn" type="button" (click)="downloadPDF()">Download PDF</button>
         <button class="btn dark publish-btn" (click)="deletePost(post.post_Id)">Delete</button>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
-
-    <script src="js/firebase.js"></script>
-    <script src="js/home.js"></script>
-    <script src="js/blog.js"></script>
 
 </body>
 </html>

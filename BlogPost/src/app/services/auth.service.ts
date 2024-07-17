@@ -24,6 +24,14 @@ export class AuthService {
       }
     }
   }
+  createComment(post_Id:number, postedBy:string, content:string) :Observable<any>{
+    const params = {
+      postId: post_Id,
+      postedBy: postedBy
+    }
+    return this.http.delete(`${this.baseUrl}/${post_Id}`).pipe(
+      catchError(this.handleError)
+ ) }
 
   getBlogById(post_Id: any): Observable<any> {
     return this.http.get(`${this.baseUrl}/${post_Id}`).pipe(
