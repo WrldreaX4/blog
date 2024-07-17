@@ -9,19 +9,26 @@
 </head>
 <body>
     <nav class="navbar">
-        <p><a href="/dashboard" class="links">PostPonder.</a></p>        
+        <p><a href="/dashboard" class="links">PostPonder.</a></p>  
+        <div class="search-box">
+            <i class='bx bx-search-alt-2'></i>
+            <input type="text" placeholder="Search here..." [(ngModel)]="searchTerm" (input)="applySearchFilter()">
+        </div>        
         <ul class="links-container">
             <li class="link-item"><a href="/editor" class="link">Create</a></li>
             <li class="link-item"><a href="/summary" class="link">Summary</a></li>
             <li class="link-item"><a href="/profile" class="link">Profile</a></li>
-
-            <li class="link-item"><a href="#" (click)="logout()" class="link">
-               Logout</a></li>
+            <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
         </ul>
     </nav>
 
-
-        
-
+    <section class="blogs-section">
+        <div class="blog-card" *ngFor="let post of filteredPosts">
+            <h1 class="blog-title">{{ post.title }}</h1>
+            <p class="blog-author">By: {{ post.author }}</p>
+            <a [routerLink]="['/blogs/', post.post_Id]" class="btn dark">read</a>
+            
+        </div> 
+    </section>
 </body>
 </html>

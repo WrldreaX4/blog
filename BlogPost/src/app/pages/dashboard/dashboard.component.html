@@ -5,40 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog : Homepage</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
-        <p><a href="/dashboard" class="links">PostPonder.</a></p>        
+        <img src="assets/post.png">
+        <p><a href="/dashboard" class="links">PostPonder.</a></p>   
+        <div class="search-box">
+            <i class='bx bx-search-alt-2'></i>
+            <input type="text" placeholder="Search here..." [(ngModel)]="searchTerm" (input)="applySearchFilter()">
+        </div>     
         <ul class="links-container">
-            <li class="link-item"><a href="/editor" class="link">Create</a></li>
-            <li class="link-item"><a href="/summary" class="link">Summary</a></li>
-            <li class="link-item"><a href="/profile" class="link">Profile</a></li>
-
-            <li class="link-item"><a href="#" (click)="logout()" class="link">
-               Logout</a></li>
+            <li class="link-item"><a routerLink="/editor" class="link">Create</a></li>
+            <li class="link-item"><a routerLink="/summary" class="link">Summary</a></li>
+            <li class="link-item"><a routerLink="/profile" class="link">Profile</a></li>
+            <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
         </ul>
     </nav>
 
     <header class="header">
         <div class="content">
-            <h2 style="font-style: italic">POSTPONDER</h2>
-			<h2>Constructive Thinking</h2>
-			<p>Post Ponder: Igniting Thoughts, Inspiring Posts!.</p>
+            <h2 style="font-style: italic" class="icon">POSTPONDER</h2>
+            <h2 class="no-fill">Constructive Thinking</h2>
+            <p>Where Thoughts Find Voice and Flourish</p>
         </div>
     </header>
+ 
     <!-- blog section -->
-
     <section class="blogs-section">
-        <div class="blog-card" *ngFor="let blog of blogs">
-            <h1 class="blog-title">{{ blog.title }}</h1>
-            <p class="blog-overview">{{ blog.content }}</p>
-            <p class="blog-author">{{ blog.author }}</p>
-            <a href="/blog" class="btn dark">read</a>
+        <div class="blog-card" *ngFor="let post of filteredPosts">
+            <img src="assets/b.png" class="blog-image" alt="">
+            <h1 class="blog-title">{{ post.title }}</h1>
+            <p class="blog-overview">{{ post.content }}</p>
+            <p class="blog-author">By: {{ post.author }}</p>
+            <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more -----</a>
         </div>
-
-        
-
     </section>
 
 </body>

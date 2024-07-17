@@ -136,6 +136,11 @@ body{
     text-align: center;
 }
 
+.content .icon{
+    letter-spacing: 8px;
+    font-size: 30px;
+}
+
 .heading{
     color: #5E7D8C;
     text-transform: capitalize;
@@ -165,25 +170,36 @@ body{
     background-color: #bebebe;
 }
 
+.blog-title{
+font-size: 40px;
+
+}
+
 .blogs-section{
-    width: 100%;
+    width: 90%;
     padding: 50px 5vw;
     display: grid;
-    grid-template-columns: 3fr 3fr 3fr; 
+    grid-template-columns: 3fr ; 
     justify-content: center;
     align-items: center;
     grid-gap: 50px;
+    margin-left: 80px;
     margin-top: -10px;
-}
-.blog-card a{
-    background-color: #5E7D8C;
-    color: #fff;
-    justify-content: center;
-    margin-left: 10px;
 
 }
-.blog-card a:hover{
-    background-color: #a5a5a5;
+.blog-card a{
+    color: #000;
+    justify-content: center;
+    margin-left: 10px;
+    text-decoration: none;
+    font-size: 25px;
+
+}
+.navbar img{
+    height: 50px;
+    border-radius: 50%;
+
+    
 }
 .blog-image{
     width: 100%;
@@ -191,8 +207,10 @@ body{
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 10px;
+    text-align: justify;
     
 }
+
 
 .blog-overview{
     margin: 10px 0 20px;
@@ -202,15 +220,22 @@ body{
 .blog-author{
     margin: 10px 0 20px;
     line-height: 30px;
-    padding: 10px;
-    color: #bebebe;
+    padding: 5px;
+    font-style: italic;
+    color: #848484;
 }
 .blog-card{
     border: 1px solid #5E7D8C;
     padding: 30px;
+    box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
+
 
 }
+.pic{
+    width: 20%;
+    height: 20%;
 
+}
 .btn.dark i{
     color: #fff;
     font-size: 20px;
@@ -326,3 +351,37 @@ textarea::-webkit-scrollbar-thumb{
     text-transform: capitalize;
 }
 
+.search-box{
+    position: relative;
+    height: 45px;
+    max-width: 600px;
+    width: 100%; 
+   margin-left: 600px;
+   
+
+}
+.search-box input{
+    position: absolute;
+    border: 1px solid #5E7D8C;
+    background-color: #fff;
+    padding: 0 50px 0 50px;
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+    color: #666;
+    font-size: 20px;
+    font-weight: 400;
+    outline: none;
+    transition: ease 0.25s;
+}
+
+
+.search-box i{
+    position: absolute;
+    font-size: 22px;
+    z-index: 10;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #707070;
+}

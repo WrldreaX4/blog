@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
   }
 
   retrieveProfileData() {
-    this.http.get(`https://gcccsarco.online/arcoapi/api/profilepage/${this.userId}`).subscribe(
+    this.http.get(`http://localhost/post/text/api/profile/${this.userId}`).subscribe(
       (resp: any) => {
         console.log('Profile data:', resp);
         if (resp.data && resp.data.length > 0) {
@@ -64,7 +64,7 @@ validatePasswords() {
   this.currentPasswordError = '';
   this.newPasswordError = '';
 
-  this.http.post(`https://gcccsarco.online/arcoapi/api/validate_password/${this.userId}`, { currentPassword: this.currentPassword }).subscribe(
+  this.http.post(`hhttp://localhost/post/text/api/validate_password/${this.userId}`, { currentPassword: this.currentPassword }).subscribe(
     (resp: any) => {
       if (resp.status.remarks !== 'success') {
         this.currentPasswordError = 'Current password is incorrect.';
@@ -87,7 +87,7 @@ updateUsernameAndEmail() {
     email: this.profileData.email
   };
 
-  this.http.post(`https://gcccsarco.online/arcoapi/api/edit_profile/${this.userId}`, data).subscribe(
+  this.http.post(`http://localhost/post/text/api/edit_profile/${this.userId}`, data).subscribe(
     (resp: any) => {
       console.log('Profile updated successfully');
     },
@@ -103,13 +103,13 @@ updatePassword() {
     return;
   }
 
-  this.http.post(`https://gcccsarco.online/arcoapi/api/validate_password/${this.userId}`, { currentPassword: this.currentPassword }).subscribe(
+  this.http.post(`http://localhost/post/text/api/validate_password/${this.userId}`, { currentPassword: this.currentPassword }).subscribe(
     (resp: any) => {
       if (resp.status.remarks !== 'success') {
         this.currentPasswordError = 'Current password is incorrect.';
       } else {
         const data = { password: this.newPassword };
-        this.http.post(`https://gcccsarco.online/arcoapi/api/edit_profile/${this.userId}`, data).subscribe(
+        this.http.post(`http://localhost/post/text/api/edit_profile/${this.userId}`, data).subscribe(
           (response: any) => {
             console.log('Password updated successfully');
             this.clearPasswordFields();

@@ -15,39 +15,28 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 })
 export class SignupComponent {
   username: string = '';
-    email: string = '';
-    password: string = '';
-    errorMessage: string = ''; 
-    
-    constructor(private authService: AuthService, private router: Router) {}
+  email: string = '';
+  password: string = '';
+  errorMessage: string = ''; // To store error message
 
-    onSignup() {
-      if (!this.username || !this.email || !this.password) {
-        alert('Please fill in all fields');
-        return;
-      }
 
-      const data = {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-      };
+  constructor(private authService: AuthService, private router: Router) {}
 
-      this.authService.userSignUp(data).subscribe(
-        (response: any) => {
-          console.log(response.message);
-          this.authService.setToken(response.jwt);
-          this.router.navigate(['/login']);
-        },
-        (error: any) => {
-          if (error.status === 409) {
-            alert('Email already exists.');
-          } else if (error.status === 400) {
-            alert('Please provide all required fields.');
-          } else {
-            alert('An unexpected error occurred. Please try again later.');
-          }
-        }
-      );
+  onSignup() {
+    if (!this.username || !this.email || !this.password) {
+      alert('Please fill in all fields');
+      return;
     }
+
+    const data = {
+      username: this.username,
+      email: this.email,
+      password: this.password,
+    };
+
+    this.authService.userSignUp(data).subscribe((response: any) => {
+      console.log(response);
+      this.router.navigate(['/login']);
+    });
+  }
   }

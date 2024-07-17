@@ -1,1 +1,52 @@
-<p>view-post works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog : </title>
+</head>
+<body>
+
+    <nav class="navbar">
+        <p><a routerLink="/dashboard" class="links">PostPonder.</a></p>
+        <ul class="links-container">
+            <li class="link-item"><a routerLink="/editor" class="link">Create</a></li>
+            <li class="link-item"><a routerLink="/summary" class="link">Summary</a></li>
+            <li class="link-item"><a routerLink="/profile" class="link">Profile</a></li>
+            <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner"></div>
+
+    <div class="banner">
+        <input type="file" accept="image/*" id="banner-upload" hidden>
+        <label for="banner-upload" class="banner-upload-btn">
+            <img src="assets/upload.png" alt="upload banner">
+        </label>
+    </div>
+
+    <form>
+        <div class="blog reportdata" *ngIf="post">
+            <h1 class="title">{{ post.title }}</h1>
+            <p class="author">Published By: {{ post.author }}</p>
+            <p class="article">{{ post.content }}</p>
+        </div>
+    </form>
+
+    <div class="blog-options" *ngIf="post">
+        <button class="btn dark publish-btn" [routerLink]="['/editblog', post.post_Id]" type="button">Edit</button>
+        <button class="btn dark publish-btn" type="button" (click)="downloadPDF()">Download PDF</button>
+        <button class="btn dark publish-btn" (click)="deletePost(post.post_Id)">Delete</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
+
+    <script src="js/firebase.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/blog.js"></script>
+
+</body>
+</html>

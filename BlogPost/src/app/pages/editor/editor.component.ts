@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -10,45 +10,41 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
   standalone: true,
   imports: [NgIf, ReactiveFormsModule, NgFor],
   templateUrl: './editor.component.html',
-  styleUrl: './editor.component.css'
+  styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
-  postForm: FormGroup;
-  userId: number | null = null;
+  addBlog: FormGroup;
+  user_id: any;
 
-  @ViewChild('formContent')
-  formContent!: ElementRef;
-  datePipe: any;
-  
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private authService: AuthService) {
-    this.postForm= this.fb.group({
-      title: ['', Validators.required],
-      author: ['', Validators.required],
-      content: ['', Validators.required]
-      
+  constructor(private authService: AuthService, private http: HttpClient, private formBuilder: FormBuilder, private router: Router) {
+    this.addBlog = this.formBuilder.group({
+      title: new FormControl('', Validators.required),
+      author: new FormControl('', Validators.required),
+      content: new FormControl('', Validators.required)
     });
   }
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
-        this.userId = user.id;
-        console.log('User ID:', this.userId);
+        this.user_id = user.id;
+        console.log('User ID:', this.user_id);
       } else {
         console.log('No user logged in.');
       }
     });
   }
+  
 
-  submitAndNavigate() {
-    if (this.postForm.valid) {
-      const reportData = this.postForm.value;
-      this.http.post(`http://localhost/post/text/api/insert_post/${this.userId}`, reportData)
+  onSubmitPost(): void {
+    if (this.addBlog.valid) {
+      const post = this.addBlog.value;
+      this.http.post(`http://localhost/post/text/api/insert_post/${this.user_id}`, post)
         .subscribe(
           (resp: any) => {
-            console.log('Post submitted:', resp);
-            this.router.navigate(['/dashboard']);
+            alert('Post submitted:');
+            this.router.navigate(['/blogs/']);
           },
           (error: any) => {
             console.error('Error submitting Blog:', error);
@@ -58,25 +54,4 @@ export class EditorComponent implements OnInit {
       console.warn('Form is not valid. Please check required fields.');
     }
   }
-
-
-  formatDate(date: Date): string {
-    if (!date) {
-        return '';
-    }
-    const year = date.getFullYear();
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-    return year + '-' + month + '-' + day;
 }
-
-  
-  logout(): void {
-    this.authService.logout();
-  }
-
-}
-  
-  

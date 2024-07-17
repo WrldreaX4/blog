@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-blog',
@@ -12,48 +12,31 @@ import { RouterLink } from '@angular/router';
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.css'
 })
-export class BlogComponent {
-  postForm: any = {};
-  data: any;
+export class BlogComponent implements OnInit {
+  post_Id: any;
+  blog: any;
+  errorMessage: string = '';
 
-  userId: number | null = null;
-
-
-
-  constructor(private http: HttpClient, private authService: AuthService){
+  constructor(private activatedRoute: ActivatedRoute, private authService: AuthService) {
+    this.post_Id = this.activatedRoute.snapshot.params['post_id'];
   }
-
-
+  
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe(user => {
-      if (user) {
-        this.userId = user.id;
-        console.log('User ID:', this.userId);
-        this.retrievePost();
-      } else {
-        console.log('No user logged in.');
+    this.authService.getBlogById(this.post_Id).subscribe({
+      next: (data: any) => {
+        this.blog = data;
+      },
+      error: (err: any) => {
+        if (err.status === 404) {
+          this.errorMessage = "Blog not found.";
+        } else {
+          this.errorMessage = "Error fetching blog. Please try again later.";
+          console.error("Error fetching blog:", err);
+        }
       }
     });
   }
-
-  retrievePost() {
-    if (this.userId !== null) {
-      this.http.get(`http://localhost/post/text/api/get_post/${this.userId}`).subscribe(
-        (resp: any) => {
-          console.log(resp);
-          this.data = resp.payload;
-          this.postForm = resp.data;
-        }, (error) => {
-          console.error('Error fetching data:', error);
-        }
-      );
-    } else {
-      console.error('User ID is not set.');
-    }
-  }
-  
   logout(): void {
     this.authService.logout();
   }
-
 }

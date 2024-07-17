@@ -176,7 +176,12 @@ body{
     font-weight: 600;
 
 }
-
+.navbar img{
+    height: 50px;
+    border-radius: 50%;
+    
+    
+}
 .btn.dark a{
     background: #5E7D8C;
     color: #fff;

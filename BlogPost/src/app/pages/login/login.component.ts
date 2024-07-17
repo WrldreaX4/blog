@@ -15,8 +15,8 @@ import { Observable } from 'rxjs';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
   errorMessage: string = ''; // To store error message
   
   constructor(private authService: AuthService, private router: Router) {}
@@ -26,12 +26,12 @@ export class LoginComponent {
       this.errorMessage = 'Please fill in all fields';
       return;
     }
-
+  
     const data = {
       email: this.email,
       password: this.password
     };
-
+  
     this.authService.userLogin(data).subscribe(
       (response: any) => {
         console.log('Login Successful.', response);
@@ -39,8 +39,9 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       },
       (error: any) => {
-        this.errorMessage = error;
+        this.errorMessage = error.message; // Assuming error has a 'message' property
       }
     );
   }
+  
 }
