@@ -22,15 +22,15 @@ export class ProfileComponent implements OnInit {
   currentPasswordError: string = '';
   newPasswordError: string = '';
 
-  userId: number | null = null;
+  user_id: number | null = null;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
-        this.userId = user.id;
-        console.log('User ID:', this.userId);
+        this.user_id = user.id;
+        console.log('User ID:', this.user_id);
         this.retrieveProfileData();
       } else {
         console.log('No user logged in.');
@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
   }
 
   retrieveProfileData() {
-    this.http.get(`http://localhost/post/text/api/profile/${this.userId}`).subscribe(
+    this.http.get(`http://localhost/post/text/api/get_profile/${this.user_id}`).subscribe(
       (resp: any) => {
         console.log('Profile data:', resp);
         if (resp.data && resp.data.length > 0) {
@@ -64,7 +64,7 @@ validatePasswords() {
   this.currentPasswordError = '';
   this.newPasswordError = '';
 
-  this.http.post(`hhttp://localhost/post/text/api/validate_password/${this.userId}`, { currentPassword: this.currentPassword }).subscribe(
+  this.http.post(`hhttp://localhost/post/text/api/validate_password/${this.user_id}`, { currentPassword: this.currentPassword }).subscribe(
     (resp: any) => {
       if (resp.status.remarks !== 'success') {
         this.currentPasswordError = 'Current password is incorrect.';
@@ -87,7 +87,7 @@ updateUsernameAndEmail() {
     email: this.profileData.email
   };
 
-  this.http.post(`http://localhost/post/text/api/edit_profile/${this.userId}`, data).subscribe(
+  this.http.post(`http://localhost/post/text/api/edit_profile/${this.user_id}`, data).subscribe(
     (resp: any) => {
       console.log('Profile updated successfully');
     },
@@ -103,13 +103,13 @@ updatePassword() {
     return;
   }
 
-  this.http.post(`http://localhost/post/text/api/validate_password/${this.userId}`, { currentPassword: this.currentPassword }).subscribe(
+  this.http.post(`http://localhost/post/text/api/validate_password/${this.user_id}`, { currentPassword: this.currentPassword }).subscribe(
     (resp: any) => {
       if (resp.status.remarks !== 'success') {
         this.currentPasswordError = 'Current password is incorrect.';
       } else {
         const data = { password: this.newPassword };
-        this.http.post(`http://localhost/post/text/api/edit_profile/${this.userId}`, data).subscribe(
+        this.http.post(`http://localhost/post/text/api/edit_profile/${this.user_id}`, data).subscribe(
           (response: any) => {
             console.log('Password updated successfully');
             this.clearPasswordFields();

@@ -43,8 +43,8 @@ export class EditorComponent implements OnInit {
       this.http.post(`http://localhost/post/text/api/insert_post/${this.user_id}`, post)
         .subscribe(
           (resp: any) => {
-            alert('Post submitted:');
-            this.router.navigate(['blogs']);
+            alert('Post submitted Sucessfully');
+            this.router.navigate(['/blogs/' + this.user_id]);
           },
           (error: any) => {
             console.error('Error submitting Blog:', error);

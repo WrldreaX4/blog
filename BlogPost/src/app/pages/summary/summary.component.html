@@ -5,30 +5,54 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog : Homepage</title>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar">
-        <p><a href="/dashboard" class="links">PostPonder.</a></p>  
-        <div class="search-box">
-            <i class='bx bx-search-alt-2'></i>
-            <input type="text" placeholder="Search here..." [(ngModel)]="searchTerm" (input)="applySearchFilter()">
-        </div>        
-        <ul class="links-container">
-            <li class="link-item"><a href="/editor" class="link">Create</a></li>
-            <li class="link-item"><a href="/summary" class="link">Summary</a></li>
-            <li class="link-item"><a href="/profile" class="link">Profile</a></li>
-            <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
-        </ul>
-    </nav>
+<nav class="navbar">
+    <p><a [routerLink]="['/dashboard']" class="links">PostPonder.</a></p>
+    <div class="search-box">
+        <i class='bx bx-search-alt-2'></i>
+        <input type="text" placeholder="Search here..." [(ngModel)]="searchTerm" (input)="applySearchFilter()">
+    </div>
+    <ul class="links-container">
+        <li class="link-item"><a [routerLink]="['/editor']" class="link">Create</a></li>
+        <li class="link-item"><a [routerLink]="['/summary']" class="link">Summary</a></li>
+        <li class="link-item"><a [routerLink]="['/profile']" class="link">Profile</a></li>
+        <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
+    </ul>
+</nav>
 
-    <section class="blogs-section">
-        <div class="blog-card" *ngFor="let post of filteredPosts">
-            <h1 class="blog-title">{{ post.title }}</h1>
-            <p class="blog-author">By: {{ post.author }}</p>
-            <a [routerLink]="['/blogs/', post.post_Id]" class="btn dark">read</a>
-            
-        </div> 
-    </section>
+<div class="container_box">
+<div class="details">
+    <h3 class="centered-title">My Blogs</h3>
+
+    <div *ngFor="let post of filteredPosts" class="laman">
+        <div>
+            <div class="details-p">
+                <h3 class="blog-title">{{ post.title }}</h3>
+                <span class="blog-date">{{ formatDate2(post.date_created) }}</span>
+            </div>
+            <p class="blog-overview">{{ post.content | truncate:80  }}</p>
+            <p class="blog-author">Published By: {{ post.author }}</p>
+        </div>
+        <div class="displaybutton col-md-3 text-right">
+            <button class="stylish-gray-button" [routerLink]="['/blogs/', post.post_Id]">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <button class="stylish-gray-button" [routerLink]="['/editblog', post.post_Id]">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="stylish-gray-button" (click)="deletePost(post.post_Id)">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+    </div>
+</div>
+</div>
 </body>
 </html>

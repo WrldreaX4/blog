@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  getSummaries() {
+    throw new Error('Method not implemented.');
+  }
 
   private baseUrl = 'http://localhost/post/text';
   private tokenKey = 'jwt';
@@ -24,14 +27,19 @@ export class AuthService {
       }
     }
   }
-  createComment(post_Id:number, postedBy:string, content:string) :Observable<any>{
+  createComment(Id:number, postedBy:string, content:string) :Observable<any>{
     const params = {
-      postId: post_Id,
-      postedBy: postedBy
+      postId: Id,
+      postedBy: postedBy,
+      content: content
     }
-    return this.http.delete(`${this.baseUrl}/${post_Id}`).pipe(
+    return this.http.delete(`${this.baseUrl}/api/comment/${Id}`).pipe(
       catchError(this.handleError)
  ) }
+
+getAllCommentByPost(Id: number): Observable<any>{
+  return this.http.get(`${this.baseUrl}/api/comments/${Id}`);
+}
 
   getBlogById(post_Id: any): Observable<any> {
     return this.http.get(`${this.baseUrl}/${post_Id}`).pipe(

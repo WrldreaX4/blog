@@ -5,18 +5,20 @@ import { DatePipe, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { TruncatePipe } from '../../truncate.pipe';
 
 interface Post {
   post_Id: number;
   title: string;
   author: string;
   content: string;
+  date_created: string;
 }
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, RouterModule, RouterOutlet, NgFor, NgIf, DatePipe, FormsModule],
+  imports: [RouterLink, RouterModule, RouterOutlet, NgFor, NgIf, DatePipe, FormsModule, TruncatePipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -24,6 +26,7 @@ export class DashboardComponent implements OnInit {
   posts: Post[] = [];
   filteredPosts: Post[] = [];
   userId: number | null = null;
+  postId: number | null = null;
   searchTerm: string = '';
   showFilteredResults: boolean = false;
 
@@ -42,17 +45,23 @@ export class DashboardComponent implements OnInit {
   }
 
   retrievePosts(): void {
-    this.http.get<any>(`http://localhost/post/text/api/postall/${this.userId}`).subscribe(
+    console.log('Fetching posts...');
+    this.http.get<any>('http://localhost/post/text/api/allpost').subscribe(
       (resp: any) => {
         console.log('Posts Retrieved:', resp); 
-        this.posts = resp.data; // Assuming resp.data is an array of posts
-        this.applySearchFilter(); // Apply search filter after retrieving posts
+        if (resp && resp.data) {
+          this.posts = resp.data; // Assuming resp.data is an array of posts
+          this.applySearchFilter(); // Apply search filter after retrieving posts
+        } else {
+          console.error('Invalid response format:', resp);
+        }
       },
       (error) => {
         console.error('Error fetching posts:', error);
       }
     );
   }
+  
 
   applySearchFilter(): void {
     const term = this.searchTerm.toLowerCase();

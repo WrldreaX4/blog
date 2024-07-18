@@ -15,6 +15,7 @@
             <i class='bx bx-search-alt-2'></i>
             <input type="text" placeholder="Search here..." [(ngModel)]="searchTerm" (input)="applySearchFilter()">
         </div>     
+
         <ul class="links-container">
             <li class="link-item"><a routerLink="/editor" class="link">Create</a></li>
             <li class="link-item"><a routerLink="/summary" class="link">Summary</a></li>
@@ -36,9 +37,10 @@
         <div class="blog-card" *ngFor="let post of filteredPosts">
             <img src="assets/b.png" class="blog-image" alt="">
             <h1 class="blog-title">{{ post.title }}</h1>
-            <p class="blog-overview">{{ post.content }}</p>
-            <p class="blog-author">By: {{ post.author }}</p>
-            <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more -----</a>
+            <p class="blog-overview">{{ post.content | truncate:100 }}</p>
+            <p class="blog-author">Created By: {{ post.author }}</p>
+            <p class="blog-date">{{ post.date_created }}</p>
+            <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more -></a>
         </div>
     </section>
 

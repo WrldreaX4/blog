@@ -326,77 +326,7 @@ textarea::-webkit-scrollbar-thumb{
     text-transform: capitalize;
 }
 
-.dashboard .dash-content{
-    padding-top: 50px;
-}
-.dashboard .dash-content{
-    padding-top: 20px;
-}
-.dash-content .title{
-    display: flex;
-    align-items: center;
-    margin: 60px 0 30px 0;
-}
-.dash-content .title i{
-    position: relative;
-    height: 35px;
-    width: 35px;
-    background-color: var(--primary-color);
-    border-radius: 6px;
-    color: var(--title-icon-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-}
-.dash-content .title .text{
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--text-color);
-    margin-left: 10px;
-}
-.btn, .delete-btn{
-   width: 100%;
-   border-radius: 5px;
-   padding: 15px 30px;
-   color:var(--text-color);
-   display: block;
-   text-align: center;
-   cursor: pointer;
-   font-size: 17px;
-   margin-top: 20px;
-   text-decoration: none;
-   border-color : red ;
-   border-style : solid ;
-    border-width : 0;
-}
 
-.btn{
-   background-color: #a5a5a5
-}
-
-.btn:hover{
-   background-color: rgb(166, 166, 166) ;
-}
-
-.delete-btn{
-   background-color: var(--border-color);
-}
-
-.delete-btn:hover{
-   background-color: rgb(166, 166, 166);
-}
-.message{
-  margin-top: 20px;
-  margin: 5px 0;
-  width: 100%;
-  border-radius: 5px;
-  padding:5px;
-  text-align: center;
-  background-color: var(--border-color);
-  color:var(--text-color);
-  font-size: 15px;
-}
 .container{
   position: absolute;
   max-width: 1000px;
@@ -410,15 +340,6 @@ textarea::-webkit-scrollbar-thumb{
   
 }
 
-.container .profile{
-  padding: 20px;
-  box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
-  0 32px 64px -48px rgba(0,0,0,0.5);
-  margin-top: -100px;
-  text-align: center;
-  width: 450px;
-  border-radius: 15px;
-}
 
 .button-section{
     width: 100%;
@@ -450,25 +371,6 @@ textarea::-webkit-scrollbar-thumb{
   margin-bottom: 5px;
 }
 
-.container .profile h3{
-  margin:5px 0;
-  font-size: 25px;
-  color: #5E7D8C;
-}
-
-.container .profile p{
-  margin-top: 5px;
-  color: #468669;
-  font-size: 20px;
-}
-
-.container .profile p a{
-  color: var(--border-color);
-}
-
-.container .profile p a:hover{
-  text-decoration: underline;
-}
 
 .update-profile{
   display: flex;
@@ -515,7 +417,7 @@ textarea::-webkit-scrollbar-thumb{
   display: block;
   margin-top: 15px;
   font-size: 15px;
-  color:var(--text-color);
+  color: #2d2d2d;
 }
 .prof .imageBox{
   margin-top: 5px;
@@ -540,7 +442,7 @@ textarea::-webkit-scrollbar-thumb{
 .update-profile form .flex .inputBox .box{
   width: 100%;
   border-radius: 5px;
-  background-color: fff;
+  background-color: #fff;
   padding: 12px 14px;
   font-size: 17px;
   color: #2d2d2d;

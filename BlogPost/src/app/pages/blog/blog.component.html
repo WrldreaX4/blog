@@ -4,63 +4,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog : </title>
-
+    <title>Blog</title>
 </head>
 <body>
-
     <nav class="navbar">
-        
-        <p><a href="/dashboard" class="links">PostPonder.</a></p>        
+        <p><a routerLink="/dashboard" class="links">PostPonder.</a></p>
         <ul class="links-container">
-            <li class="link-item"><a href="/editor" class="link">Create</a></li>
-            <li class="link-item"><a href="/summary" class="link">Summary</a></li>
-            <li class="link-item"><a href="/profile" class="link">Profile</a></li>
-
-            <li class="link-item"><a href="#" (click)="logout()" class="link">
-               Logout</a></li>
+            <li class="link-item"><a routerLink="/editor" class="link">Create</a></li>
+            <li class="link-item"><a routerLink="/summary" class="link">Summary</a></li>
+            <li class="link-item"><a routerLink="/profile" class="link">Profile</a></li>
+            <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
         </ul>
     </nav>
-    
-    <div class="banner"></div>
 
+    <div class="banner"></div>
     <div class="banner">
         <input type="file" accept="image/*" id="banner-upload" hidden>
-        <label for="banner-upload" class="banner-upload-btn"><img src="assets/upload.png" alt="upload banner"></label>
+        <label for="banner-upload" class="banner-upload-btn">
+            <img src="assets/upload.png" alt="upload banner">
+        </label>
     </div>
-    <form>
-    <div class="blog">
-        <h1 type="text" class="title">Disney Princess</h1>
-        <p type="text" class="author">Published By: Walt Disney 1970<p>
-        <p type="text" class="article">Disney Princesses are a beloved franchise of animated characters created by The Walt Disney Company, known for their unique stories, enchanting worlds, and inspiring qualities. Each princess, from Snow White, the first Disney Princess introduced in 1937, to more recent additions like Moana and Elsa, embodies traits such as bravery, kindness, and resilience. These characters often embark on transformative journeys, overcoming challenges and discovering their inner strength. Their tales are set in diverse and fantastical settings, filled with memorable songs, charming sidekicks, and valuable life lessons. Disney Princesses have become cultural icons, representing the magic of Disney and inspiring millions around the globe with their timeless adventures and enduring spirit.
 
-Disney Princesses are a group of fictional characters created by The Walt Disney Company, each known for her unique story, personality, and journey. The franchise began with Snow White in 1937 and has since expanded to include iconic characters such as Cinderella, Ariel, Belle, Jasmine, Pocahontas, Mulan, Tiana, Rapunzel, Merida, and Moana. These princesses are celebrated for their bravery, kindness, and resilience, often overcoming significant challenges and adversities in their tales. Their enchanting stories, set in diverse and fantastical worlds, are filled with memorable songs, magical moments, and valuable life lessons.
-
-Disney Princesses have become timeless symbols of hope, dreams, and the enduring power of inner strength and character. Each princess's story showcases themes of self-discovery, perseverance, and the importance of staying true to oneself. From Cinderella's journey from rags to royalty, Ariel's quest to explore new worlds, Belle's love for adventure and knowledge, to Mulan's courageous stand to protect her family, each character teaches audiences about the virtues of courage, compassion, and the pursuit of one's dreams.
-
-The cultural impact of Disney Princesses extends beyond films. They inspire a wide range of merchandise, theme park attractions, and media, reinforcing their status as cultural icons. These characters also serve as role models, inspiring young audiences with their diverse backgrounds, strengths, and the message that true beauty lies within. Initiatives such as the Disney Princess Empowerment program further highlight their role in promoting positive values and encouraging young people to be confident and courageous.
-
-Moreover, the Disney Princess line-up continues to evolve, reflecting changing societal values and embracing more diverse and complex characters. With each new addition, the franchise embraces inclusivity and broadens its representation, ensuring that audiences from all walks of life can see themselves in these beloved characters. This evolution signifies Disney's commitment to telling stories that resonate with contemporary values while maintaining the timeless charm that has defined Disney Princesses for generations.
-
-In essence, Disney Princesses are more than just characters in fairy tales. They embody the timeless values of kindness, courage, and resilience, providing inspiration and hope to millions worldwide. Through their enchanting stories, they remind us that with determination and heart, we can overcome any obstacle and achieve our dreams.
-        </p>
+    <div class="container" id="blog-container">
+        <form>
+            <div id="blog" class="blog" *ngIf="post">
+                <h1 class="title">{{ post.title }}</h1>
+                <p class="author">Published By: {{ post.author }}</p>
+                <p class="article">{{ post.content }}</p>
+            </div>
+        </form>
     </div>
-</form>
-    <div class="blog-options">
-        <button class="btn dark publish-btn" type="submit">Edit</button>
-        <button class="btn dark publish-btn" type="submit">Download PDF</button>
-        <button class="btn dark publish-btn" type="submit">Delete</button>
 
+    <div class="blog-options" *ngIf="post">
+        <button class="btn dark publish-btn" [routerLink]="['/editblog', post.post_Id]" type="button">Edit</button>
+        <!---<button class="btn dark publish-btn" type="button" (click)="downloadPDF()">Download PDF</button>--->
+        <button class="btn dark publish-btn" (click)="deletePost(post.post_Id)">Delete</button>
     </div>
-    
-        
 
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js"></script>
-
-    <script src="js/firebase.js"></script>
-    <script src="js/home.js"></script>
-    <script src="js/blog.js"></script>
-    
-</body>
-</html>
+    <!---<div class="body">
+    <div class="comment_card">
+        <h2>Publish Your Comment</h2>
+        <div>
+            <form [formGroup]="commentForm">
+                    <input type="text" formControlName="posetedBy" placeholder="Posted By">
+                    <textarea type="text" formControlName="CContent" placeholder="Type Your Comment"></textarea>
+                    <button type="submit">Submit Comment</button>
+                    
+            </form>
+        </div>
+    </div>
+    </div>--->
