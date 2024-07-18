@@ -74,7 +74,7 @@ export class ViewPostComponent implements OnInit {
   deleteComment(Id: number): void {
     const confirmed = confirm('Are you sure you want to delete this report?');
     if (confirmed) {
-      this.http.post(`http://localhost/post/text/api/delete_comment/${Id}`, {})
+      this.http.delete(`http://localhost/post/text/api/delete_comment/${Id}`, {})
         .subscribe(
           () => {
             this.comments = this.comments.filter((comment: any) => comment.Id !== Id);
@@ -90,7 +90,7 @@ export class ViewPostComponent implements OnInit {
   onSubmitComment(): void {
     if (this.addComment.valid) {
       const commentData = this.addComment.value;
-      this.http.delete(`http://localhost/post/text/api/post_comment/${this.post_Id}`, commentData)
+      this.http.post(`http://localhost/post/text/api/post_comment/${this.post_Id}`, commentData)
         .subscribe(
           (resp: any) => {
             alert('Comment submitted successfully');

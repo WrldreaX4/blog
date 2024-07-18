@@ -38,7 +38,7 @@
             <img src="assets/b.png" class="blog-image" alt="">
             <h1 class="blog-title">{{ post.title }}</h1>
             <p class="blog-overview">{{ post.content | truncate:100 }}</p>
-            <p class="blog-author">Created By: {{ post.author }}</p>
+            <p class="blog-author">Created By: {{ post.author }} || </p>
             <p class="blog-date">{{ post.date_created }}</p>
             <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more -></a>
         </div>

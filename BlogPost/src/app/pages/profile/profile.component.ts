@@ -3,28 +3,33 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+
+interface Post {
+  post_Id: number;
+  title: string;
+  author: string;
+  content: string;
+  date_created: string;
+}
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [RouterLink, RouterOutlet, RouterModule, FormsModule, ReactiveFormsModule, CommonModule],
-
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrl: './profile.component.css',
+  providers: [DatePipe]
+
 })
 export class ProfileComponent implements OnInit {
   profileData: any = {};
-  currentPassword: string = '';
-  newPassword: string = '';
-  confirmNewPassword: string = '';
-  currentPasswordError: string = '';
-  newPasswordError: string = '';
-
+  posts: Post[] = [];
+  recentPosts: Post[] = [];
   user_id: number | null = null;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private datePipe: DatePipe,) {}
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe(user => {
@@ -32,16 +37,11 @@ export class ProfileComponent implements OnInit {
         this.user_id = user.id;
         console.log('User ID:', this.user_id);
         this.retrieveProfileData();
+        this.retrievePosts();
       } else {
         console.log('No user logged in.');
       }
     });
-  }
-
-  clearPasswordFields() {
-    this.currentPassword = '';
-    this.newPassword = '';
-    this.confirmNewPassword = '';
   }
 
   retrieveProfileData() {
@@ -60,75 +60,40 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-validatePasswords() {
-  this.currentPasswordError = '';
-  this.newPasswordError = '';
-
-  this.http.post(`hhttp://localhost/post/text/api/validate_password/${this.user_id}`, { currentPassword: this.currentPassword }).subscribe(
-    (resp: any) => {
-      if (resp.status.remarks !== 'success') {
-        this.currentPasswordError = 'Current password is incorrect.';
-      } else if (this.newPassword !== this.confirmNewPassword) {
-        this.newPasswordError = 'New passwords do not match.';
-      } else {
-        this.updatePassword();
+  retrievePosts(): void {
+    this.http.get<any>(`http://localhost/post/text/api/postall/${this.user_id}`).subscribe(
+      (resp: any) => {
+        console.log('Posts Retrieved:', resp);
+        this.posts = resp.data; // Assuming resp.data is an array of posts
+        this.setRecentPosts();
+      },
+      (error) => {
+        console.error('Error fetching posts:', error);
       }
-    },
-    (error) => {
-      this.currentPasswordError = 'Error validating current password.';
-      console.error('Error validating password:', error);
-    }
-  );
-}
-
-updateUsernameAndEmail() {
-  const data = {
-    username: this.profileData.username,
-    email: this.profileData.email
-  };
-
-  this.http.post(`http://localhost/post/text/api/edit_profile/${this.user_id}`, data).subscribe(
-    (resp: any) => {
-      console.log('Profile updated successfully');
-    },
-    (error) => {
-      console.error('Error updating profile', error);
-    }
-  );
-}
-
-updatePassword() {
-  if (this.newPassword !== this.confirmNewPassword) {
-    this.newPasswordError = 'New passwords do not match.';
-    return;
+    );
+  }
+  formatDate(date: string): string | null {
+    const transformedDate = this.datePipe.transform(date, 'EEEE'); // Output like "Sunday, May 17, 2023"
+    return transformedDate !== null ? transformedDate : null;
   }
 
-  this.http.post(`http://localhost/post/text/api/validate_password/${this.user_id}`, { currentPassword: this.currentPassword }).subscribe(
-    (resp: any) => {
-      if (resp.status.remarks !== 'success') {
-        this.currentPasswordError = 'Current password is incorrect.';
-      } else {
-        const data = { password: this.newPassword };
-        this.http.post(`http://localhost/post/text/api/edit_profile/${this.user_id}`, data).subscribe(
-          (response: any) => {
-            console.log('Password updated successfully');
-            this.clearPasswordFields();
-          },
-          (error) => {
-            console.error('Error updating password', error);
-          }
-        );
-      }
-    },
-    (error) => {
-      this.currentPasswordError = 'Error validating current password.';
-      console.error('Error validating password:', error);
-    }
-  );
-}
+  formatDate1(date: string): string | null {
+    const transformedDate = this.datePipe.transform(date, 'd');  // Output like "17"
+    return transformedDate !== null ? transformedDate : null;
+  }
 
+  formatDate2(date: string): string | null {
+    const transformedDate = this.datePipe.transform(date, 'MMMM d');  // Output like "May 17"
+    return transformedDate !== null ? transformedDate : null;
+  }
+  setRecentPosts(): void {
+    // Sort posts by date_created and take the 5 most recent ones
+    this.recentPosts = this.posts
+      .sort((a, b) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime())
+      .slice(0, 5);
+  }
 
-logout(): void {
-  this.authService.logout();
-}
+  logout(): void {
+    this.authService.logout();
+  }
 }

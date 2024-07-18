@@ -247,7 +247,7 @@ body{
 .blog{
     width: 70vw;
     min-width: 1000px;
-    margin-bottom: 1450px;
+    margin-bottom: 1000px;
     padding: 50px 0;
     text-align: justify;
     height: auto; /* Ensure dynamic height */
@@ -360,11 +360,10 @@ textarea::-webkit-scrollbar-thumb{
 }
 .body{
     float: right;
-    margin-top: -122.5%;
+    margin-top: -98%;
     height: 1400px;
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
-    overflow:auto;
 }
 .comment_card {
     width: 430px; /* Adjust width for sidebar */
@@ -403,11 +402,16 @@ textarea::-webkit-scrollbar-thumb{
     border-radius: 10px;
     color: #fff;
     cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .comment_section{
     position: relative;
-    padding: 20px;
+    padding: 10px;
+    margin-top: -20px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 .comment_laman{
     padding: 10px;
@@ -444,23 +448,24 @@ textarea::-webkit-scrollbar-thumb{
 
 .laman{
     padding: 5px;
+    height: auto;
     margin-left: 40px;
     justify-content: center;
     text-align: justify;
     font-size: 16px;
     font-weight: 700;
+    margin: auto;
 }
 
 .comment_footer{
     display: flex;
-    font-size: 1.5rem;
     opacity: 0.6;
     justify-content: flex-end;
     align-items: center;
 }
 .comment_footer button{
     display: flex;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #2d2d2d;
     opacity: 0.6;
     justify-content: flex-end;

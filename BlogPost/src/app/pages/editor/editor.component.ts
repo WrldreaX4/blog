@@ -36,6 +36,7 @@ export class EditorComponent implements OnInit {
     });
   }
   
+  
 
   onSubmitPost(): void {
     if (this.addBlog.valid) {
