@@ -27,21 +27,22 @@
 
     <div class="body">
         <section class="comment_card">
-            <h2 style="text-align: center;">Publish Your Comment</h2>
+            <h2 style="text-align: center;">Your Comment</h2>
             <div>
-                <form [formGroup]="addComment">
-                    <input type="text" formControlName="postedBy" placeholder="Posted By">
+                <form [formGroup]="addComment" (ngSubmit)="onSubmitComment()">
+                    <input type="hidden" formControlName="postedBy" [value]="profileData.username">
                     <textarea type="text" formControlName="content" placeholder="Type Your Comment"></textarea>
-                    <button type="submit" (click)="onSubmitComment()">Submit Comment</button>
+                    <button type="submit">Submit Comment</button>
                 </form>
             </div>
         </section>
 
         <div class="comment_section">
+            <h3>Comment</h3>
             <div class="comment_laman" *ngFor="let comment of comments">
-                <img src="assets/BlogPi.png">
+                <img src="assets/user.png">
                 <h3 class="comment_title">{{ comment.postedBy }}
-                    <p class="date">Published On: {{ comment.date_created }}</p>
+                    <p class="date">Published On: {{ comment.formattedTime }}</p>
                 </h3>
                 <p class="laman">{{ comment.content }}</p>
                 <div class="comment_footer">

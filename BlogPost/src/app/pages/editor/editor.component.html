@@ -15,23 +15,26 @@
         
     </nav>
 
-    <div class="banner">
+    <div class="banner" style="background-image: url('{{ bannerPath }}');">
         <input type="file" accept="image/*" id="banner-upload" hidden>
-        <label for="banner-upload" class="banner-upload-btn"><img src="assets/upload.png" alt="upload banner"></label>
+        <label for="banner-upload" class="banner-upload-btn">
+            <img src="assets/upload.png" alt="upload banner">
+        </label>
     </div>
     <form [formGroup]="addBlog">
     <div class="blog">
         <textarea type="text" formControlName="title" class="title" placeholder="Blog title..."></textarea>
-        <textarea type="text" formControlName="author" class="author" placeholder="Author..."></textarea>
+        <textarea type="text" formControlName="author" class="author" placeholder="Author..." [value]="profileData.username" ></textarea>
         <textarea type="text" formControlName="content" class="article" placeholder="Start writing here..."></textarea>
     </div>
 </form>
     <div class="blog-options">
         <button class="btn dark publish-btn" (click)="onSubmitPost()" type="submit">Submit</button>
         <input type="file" accept="image/*" id="image-upload" hidden>
-        <label for="image-upload" class="btn grey upload-btn">Upload Image</label>
         <a class="btn dark publish-btn" href="/dashboard">Back</a>
     </div>
+
+    <script src="/assets/js/editor.js"></script>
 
 </body>
 </html>

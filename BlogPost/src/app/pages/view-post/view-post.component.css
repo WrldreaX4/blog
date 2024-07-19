@@ -250,7 +250,7 @@ body{
     margin-bottom: 1000px;
     padding: 50px 0;
     text-align: justify;
-    height: auto; /* Ensure dynamic height */
+    height: 390px;
 }
 
 .container{
@@ -296,6 +296,11 @@ textarea::-webkit-scrollbar-thumb{
     color: #2d2d2d;
 }
 
+.title, .author{
+    text-align: center;
+
+}
+
 .article{
     height: 500px;
     font-size: 20px;
@@ -315,7 +320,7 @@ textarea::-webkit-scrollbar-thumb{
     width: 250px;
 }
 .author{
-    font-size: 20px;
+    font-size: 15px;
     padding: 10px;
     font-style: italic;
     margin-bottom: 20px;
@@ -360,7 +365,7 @@ textarea::-webkit-scrollbar-thumb{
 }
 .body{
     float: right;
-    margin-top: -98%;
+    margin-top: -77%;
     height: 1400px;
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
@@ -382,7 +387,12 @@ textarea::-webkit-scrollbar-thumb{
     padding: 0 20px;
     margin-bottom: 15px;
     border-radius: 5px;
-    border: 1px solid #5E7D8C;
+    border-bottom: 1px solid #5E7D8C;
+    outline: none;
+    background-color: #f1f1f1;
+    border-top: #fff;
+    border-left: #fff;
+    border-right: #fff;
 }
 
 .comment_card textarea {
@@ -391,7 +401,13 @@ textarea::-webkit-scrollbar-thumb{
     padding: 15px 20px;
     margin-bottom: 10px;
     border-radius: 5px;
-    border: 1px solid #5E7D8C;
+    border-bottom: 1px solid #5E7D8C;
+    outline: none;
+    background-color: #f1f1f1;
+    border-top: #fff;
+    border-left: #fff;
+    border-right: #fff;
+
 }
 
 .comment_card button {
@@ -409,7 +425,7 @@ textarea::-webkit-scrollbar-thumb{
 .comment_section{
     position: relative;
     padding: 10px;
-    margin-top: -20px;
+    margin-top: 20px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -447,11 +463,9 @@ textarea::-webkit-scrollbar-thumb{
 }
 
 .laman{
-    padding: 5px;
+    padding: 15px;
     height: auto;
-    margin-left: 40px;
     justify-content: center;
-    text-align: justify;
     font-size: 16px;
     font-weight: 700;
     margin: auto;
@@ -468,6 +482,7 @@ textarea::-webkit-scrollbar-thumb{
     font-size: 1.5rem;
     color: #2d2d2d;
     opacity: 0.6;
+    outline: none;
     justify-content: flex-end;
     align-items: center;
 }

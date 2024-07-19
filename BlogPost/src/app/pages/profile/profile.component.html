@@ -58,36 +58,46 @@
           <div class="cols__container">
             <div class="left__col">
               <div class="img__container">
-                <img src="assets/user.png" alt="User Image" id="user-Image">
+                <img src="assets/user.png" alt="profile" />
                 <span></span>
               </div>
-              <h2>{{ profileData.username }}</h2>
-              <p>{{ profileData.email }}</p>
-      
+              <h2>{{profileData.username}}</h2>
+              <p>Guest || Author</p>
+              <p>{{profileData.email}}</p>
+    
               <ul class="about">
-                <!-- Add any additional profile details here -->
+                
               </ul>
-      
+    
               <div class="content">
-                <p>{{ profileData.description }}</p>
-                <a href="updateprofile.php" class="btn">Edit Profile</a>
+                <p>
+                  {{profileData.bio}}
+                </p>
+    
+                <ul>
+                  <li><i class="fab fa-twitter"></i></li>
+                  <i class="fab fa-pinterest"></i>
+                  <i class="fab fa-facebook"></i>
+                  <i class="fab fa-dribbble"></i>
+                </ul>
               </div>
             </div>
             <div class="right__col">
-
+              <nav>
+                <ul>
+                  <li>Recent Post</li>
+                </ul>
+              </nav>
+    
               <div class="photos">
-                <nav>
-                    <h2>Recent Blogs</h2>
-                  </nav>
                 <section class="blogs-section">
-                  <div class="blog-card" *ngFor="let post of recentPosts">
-                    <h3 class="blog-title">{{ post.title }}</h3>
-                    <span class="blog-date">{{ formatDate2(post.date_created) }}</span>
-                    <button class="stylish-gray-button" [routerLink]="['/blogs/', post.post_Id]">
-                      <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
+                  <div class="blog-card" *ngFor="let post of posts">
+                      <h1 class="blog-title">{{ post.title }}</h1>
+                      <p class="blog-author">Created By: {{ post.author }} || </p>
+                      <p class="blog-date">{{ post.date_created }}</p>
+                      <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more -></a>
                   </div>
-                </section>
+              </section>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { TruncatePipe } from '../../truncate.pipe';
 
 interface Post {
   post_Id: number;
@@ -17,7 +18,7 @@ interface Post {
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, RouterModule, FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterLink, RouterOutlet, RouterModule, FormsModule, ReactiveFormsModule, CommonModule,TruncatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
   providers: [DatePipe]

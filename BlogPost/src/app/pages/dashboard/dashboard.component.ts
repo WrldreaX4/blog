@@ -13,8 +13,8 @@ interface Post {
   author: string;
   content: string;
   date_created: string;
+  formattedTime?: string; // Optional property
 }
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -44,13 +44,52 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+
+  formatDate(date: Date): string {
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are zero-indexed
+    const year = date.getFullYear();
+    
+    // Add leading zeroes for single digit day or month
+    const dayStr = day < 10 ? `0${day}` : day;
+    const monthStr = month < 10 ? `0${month}` : month;
+    
+    return `${monthStr}/${dayStr}/${year}`;
+  }
+  
+  formatTime12Hour(date: Date): string {
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // The hour '0' should be '12'
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    
+    return `${hours}:${formattedMinutes} ${ampm}`;
+  }
+  
+  formatDateTime(date: Date): string {
+    const datePart = this.formatDate(date);
+    const timePart = this.formatTime12Hour(date);
+    
+    return `${datePart} ${timePart}`;
+  }
+  
   retrievePosts(): void {
     console.log('Fetching posts...');
     this.http.get<any>('http://localhost/post/text/api/allpost').subscribe(
       (resp: any) => {
         console.log('Posts Retrieved:', resp); 
         if (resp && resp.data) {
-          this.posts = resp.data; // Assuming resp.data is an array of posts
+          this.posts = resp.data.map((post: Post) => {
+            // Assuming post.date_created is a string; convert to Date object
+            const postDate = new Date(post.date_created);
+            return {
+              ...post,
+              formattedTime: this.formatDateTime(postDate) // Add formatted time
+            };
+          });
           this.applySearchFilter(); // Apply search filter after retrieving posts
         } else {
           console.error('Invalid response format:', resp);
@@ -61,6 +100,7 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+  
   
 
   applySearchFilter(): void {

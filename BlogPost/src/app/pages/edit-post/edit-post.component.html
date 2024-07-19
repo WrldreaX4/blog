@@ -22,14 +22,13 @@
     <form [formGroup]="addBlog">
     <div class="blog">
         <textarea type="text" formControlName="title" class="title" placeholder="Blog title..."></textarea>
-        <textarea type="text" formControlName="author" class="author" placeholder="Author..."></textarea>
+        <textarea type="text" formControlName="author" class="author" placeholder="Author..." [value]="profileData.username"></textarea>
         <textarea type="text" formControlName="content" class="article" placeholder="Start writing here..."></textarea>
     </div>
 </form>
     <div class="blog-options">
         <button class="btn dark publish-btn"(click)="onSubmitPost(post_Id)" type="submit">Submit</button>
         <input type="file" accept="image/*" id="image-upload" hidden>
-        <label for="image-upload" class="btn grey upload-btn">Upload Image</label>
         <a class="btn dark publish-btn" href="/dashboard">Back</a>
     </div>
 

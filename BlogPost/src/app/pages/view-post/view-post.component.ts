@@ -23,32 +23,92 @@ export class ViewPostComponent implements OnInit {
   post_Id: number = 0;
   addComment!: FormGroup;
   errorMessage: string = '';
-
-  comments: any = {};
+  profileData: any = {};
+  comments: any = [];
   user_id: number = 0;
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.addComment = this.formBuilder.group({
+      postedBy: [''],
+      content: ['', Validators.required]
+    });
+
     this.route.paramMap.subscribe(params => {
       this.post_Id = parseInt(params.get('id')!, 10);
       if (!isNaN(this.post_Id)) {
+        this.authService.getCurrentUser().subscribe(user => {
+          if (user) {
+            this.user_id = user.id;
+            this.retrieveProfileData();
+          } else {
+            console.log('No user logged in.');
+            this.router.navigate(['/login']);
+          }
+        });
         this.retrievePost(this.post_Id);
         this.retrieveComments(this.post_Id);
       }
     });
+  }
 
-    // Initialize the comment form
-    this.addComment = this.formBuilder.group({
-      postedBy: ['', Validators.required],
-      content: ['', Validators.required]
-    });
+  formatDate(date: Date): string {
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are zero-indexed
+    const year = date.getFullYear();
+  
+    // Add leading zeroes for single digit day or month
+    const dayStr = day < 10 ? `0${day}` : day;
+    const monthStr = month < 10 ? `0${month}` : month;
+  
+    return `${monthStr}/${dayStr}/${year}`;
+  }
+  
+  formatTime12Hour(date: Date): string {
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // The hour '0' should be '12'
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  
+    return `${hours}:${formattedMinutes} ${ampm}`;
+  }
+  
+  formatDateTime(date: Date): string {
+    const datePart = this.formatDate(date);
+    const timePart = this.formatTime12Hour(date);
+  
+    return `${datePart} ${timePart}`;
+  }
+
+  retrieveProfileData(): void {
+    this.http.get(`http://localhost/post/text/api/get_profile/${this.user_id}`).subscribe(
+      (resp: any) => {
+        if (resp.data && resp.data.length > 0) {
+          this.profileData = resp.data[0];
+          this.addComment.get('postedBy')?.setValue(this.profileData.username);
+        } else {
+          console.error('No data available');
+        }
+      },
+      (error) => {
+        console.error('Error retrieving profile data', error);
+      }
+    );
   }
 
   retrievePost(post_Id: number): void {
     this.http.get(`http://localhost/post/text/api/postonly/${post_Id}`).subscribe(
       (resp: any) => {
-        console.log(resp);
         this.post = resp.data;
       },
       error => {
@@ -61,8 +121,11 @@ export class ViewPostComponent implements OnInit {
   retrieveComments(post_Id: number): void {
     this.http.get(`http://localhost/post/text/api/commentall/${post_Id}`).subscribe(
       (resp: any) => {
-        console.log(resp);
-        this.comments = resp.data;
+        this.comments = resp.data.map((comment: any) => {
+          const commentDate = new Date(comment.date_created);
+          comment.formattedTime = this.formatDateTime(commentDate);
+          return comment;
+        });
       },
       error => {
         console.error('Error fetching Comments:', error);
@@ -85,7 +148,6 @@ export class ViewPostComponent implements OnInit {
         );
     }
   }
-  
 
   onSubmitComment(): void {
     if (this.addComment.valid) {

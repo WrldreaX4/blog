@@ -101,7 +101,7 @@ export class SummaryComponent implements OnInit {
   deletePost(post_Id: number): void {
     const confirmed = confirm('Are you sure you want to delete this report?');
     if (confirmed) {
-      this.http.delete(`http://localhost/post/text/api/delete_comment/${post_Id}`, {})
+      this.http.post(`http://localhost/post/text/api/delete_post/${post_Id}`, {})
         .subscribe(
           () => {
             this.posts = this.posts.filter((post: any) => post.post_Id !== post_Id);

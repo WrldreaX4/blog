@@ -14,7 +14,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EditPostComponent {
   addBlog: FormGroup;
   post: any = {};
-
+  profileData: any = {};
+  user_id: number = 0;
 
   post_Id: number = 0;
 
@@ -50,7 +51,23 @@ export class EditPostComponent {
     );
   }
 
-
+  retrieveProfileData() {
+    this.http.get(`http://localhost/post/text/api/get_profile/${this.user_id}`).subscribe(
+      (resp: any) => {
+        console.log('Profile data:', resp);
+        if (resp.data && resp.data.length > 0) {
+          this.profileData = resp.data[0];  // Access the first element of the array
+          // Set the author form control value to username
+          this.addBlog.get('author')?.setValue(this.profileData.username);
+        } else {
+          console.error('No data available');
+        }
+      },
+      (error) => {
+        console.error('Error retrieving profile data', error);
+      }
+    );
+  }
 
   onSubmitPost(id: number): void {
     if (this.addBlog.valid) {
