@@ -1,13 +1,15 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
-import { DatePipe, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
+import { DatePipe, isPlatformBrowser, NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { TruncatePipe } from '../../truncate.pipe';
 
 interface Post {
+  likes: any;
+  hasLiked: any;
   post_Id: number;
   title: string;
   author: string;
@@ -18,7 +20,7 @@ interface Post {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, RouterModule, RouterOutlet, NgFor, NgIf, DatePipe, FormsModule, TruncatePipe],
+  imports: [RouterLink, RouterModule, RouterOutlet, NgFor, NgIf, DatePipe, FormsModule, TruncatePipe, NgClass],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -54,7 +56,7 @@ export class DashboardComponent implements OnInit {
     const dayStr = day < 10 ? `0${day}` : day;
     const monthStr = month < 10 ? `0${month}` : month;
     
-    return `${monthStr}/${dayStr}/${year}`;
+    return `${monthStr}-${dayStr}-${year}`;
   }
   
   formatTime12Hour(date: Date): string {
@@ -66,7 +68,7 @@ export class DashboardComponent implements OnInit {
     hours = hours ? hours : 12; // The hour '0' should be '12'
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
     
-    return `${hours}:${formattedMinutes} ${ampm}`;
+    return ` at ${hours} : ${formattedMinutes} ${ampm}`;
   }
   
   formatDateTime(date: Date): string {
@@ -109,6 +111,42 @@ export class DashboardComponent implements OnInit {
     this.showFilteredResults = true;
   }
 
+
+  likePost(postId: number): void {
+    const post = this.posts.find(p => p.post_Id === postId);
+    if (post) {
+      if (!post.hasLiked) {
+        post.likes! += 1;
+        post.hasLiked = true;
+        this.http.post(`http://localhost/post/text/api/update_likes/${postId}`, { likes: post.likes })
+          .subscribe(
+            () => console.log('Likes updated successfully'),
+            (error) => console.error('Error updating likes:', error)
+          );
+      }
+    }
+  }
+
+  sharePost(postId: number): void {
+    const post = this.posts.find(p => p.post_Id === postId);
+    if (post) {
+      if (navigator.share) {
+        navigator.share({
+          title: post.title,
+          text: 'Check out this blog post!',
+          url: window.location.href
+        }).then(() => {
+          console.log('Thanks for sharing!');
+        }).catch((error) => {
+          console.error('Error sharing', error);
+        });
+      } else {
+        const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`;
+        window.open(shareUrl, '_blank');
+      }
+    }
+  }
+  
   logout(): void {
     this.authService.logout();
   }

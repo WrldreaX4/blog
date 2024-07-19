@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog : Homepage</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <nav class="navbar">
@@ -41,7 +46,17 @@
             <p class="blog-author">Created By: {{ post.author }}</p>
             <p class="blog-date">{{ post.formattedTime }}</p>
             <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more -></a>
+            <div class="displaybutton col-md-3 text-right">
+                <button class="stylish-gray-button" (click)="likePost(post.post_Id)" [ngClass]="{'liked': post.hasLiked}">
+                    <i class="fa-solid fa-heart"></i>
+                </button>
+                <button class="stylish-gray-button" (click)="sharePost(post.post_Id)">
+                    <i class="fa-solid fa-share"></i>
+                                </button>
+            
+            </div>
         </div>
+    
     </section>
 
 </body>

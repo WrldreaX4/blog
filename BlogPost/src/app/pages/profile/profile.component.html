@@ -62,8 +62,8 @@
                 <span></span>
               </div>
               <h2>{{profileData.username}}</h2>
-              <p>Guest || Author</p>
-              <p>{{profileData.email}}</p>
+              <p>   Guest || Author   </p>
+              <p class="email">{{profileData.email}}</p>
     
               <ul class="about">
                 
@@ -75,10 +75,7 @@
                 </p>
     
                 <ul>
-                  <li><i class="fab fa-twitter"></i></li>
-                  <i class="fab fa-pinterest"></i>
-                  <i class="fab fa-facebook"></i>
-                  <i class="fab fa-dribbble"></i>
+
                 </ul>
               </div>
             </div>
@@ -93,7 +90,7 @@
                 <section class="blogs-section">
                   <div class="blog-card" *ngFor="let post of posts">
                       <h1 class="blog-title">{{ post.title }}</h1>
-                      <p class="blog-author">Created By: {{ post.author }} || </p>
+                      <p class="blog-author">Created By: {{ post.author }}</p>
                       <p class="blog-date">{{ post.date_created }}</p>
                       <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more -></a>
                   </div>

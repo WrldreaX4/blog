@@ -431,7 +431,7 @@ textarea::-webkit-scrollbar-thumb{
     display: flex;
     flex-direction: column; /* Stack items vertically */
     box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
-    padding: 20px; /* Adjust padding as needed */
+    padding: 30px; /* Adjust padding as needed */
     margin: 40px 0;
 }
 

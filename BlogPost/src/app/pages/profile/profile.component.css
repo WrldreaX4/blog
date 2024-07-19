@@ -166,8 +166,8 @@ body{
   height: 90px;
   padding: 20px 5vw;
   display: grid;
-  grid-template-columns: 3fr; 
-  grid-gap: 50px;
+  grid-template-columns: 3fr ; 
+  grid-gap: 20px;
 }
 .blog-card a{
     color: #fff;
@@ -217,9 +217,10 @@ body{
   display: flex;
 }
 .blog-card{
-  width: 600px;
-    padding: 30px;
+  width: 700px;
+    padding: 40px;
     height: 250px;
+    overflow: hidden;
     box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
 
 
@@ -264,7 +265,7 @@ body{
     height: 100px;
     display: block;
     margin: auto;
-    padding: 50px 0;
+    padding: 100px 0;
 }
 
 textarea::-webkit-scrollbar{
@@ -353,7 +354,10 @@ textarea::-webkit-scrollbar-thumb{
   box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
   
 }
-
+.email{
+  padding: 10px;
+  font-style: italic;
+}
 
 .button-section{
     width: 100%;
@@ -392,8 +396,8 @@ a {
   box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
   margin-top: 220px;
   border-radius: 10px;
-  width: 1300px;
-  margin-left: 275px;
+  width: 1500px;
+  margin-left: 180px;
   margin-bottom: 20px;
 }
 .header__wrapper header {
@@ -412,6 +416,7 @@ a {
   max-width: 350px;
   position: relative;
   margin: 0 auto;
+  padding: 50px;
 }
 
 .header__wrapper .cols__container .left__col .img__container {
@@ -505,14 +510,14 @@ a {
 .header__wrapper .cols__container .right__col .photos {
   margin-top: -40px;
   display: grid;
-  gap: -10px;
-  overflow-x: hidden;
+  margin-left: 85px;
 }
 .header__wrapper .cols__container .right__col .photos img {
   max-width: 100%;
   display: block;
   height: 100%;
   object-fit: cover;
+  overflow-x: hidden;
 }
 
 /* Responsiveness */
