@@ -7,13 +7,19 @@ import { EditorComponent } from '../editor/editor.component';
 import { HttpClient } from '@angular/common/http';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+interface Comment {
+  Id: number;
+  hasLiked: boolean;
+  // Add other properties relevant to your comment
+}
 
 @Component({
   selector: 'app-view-post',
   standalone: true,
-  imports: [ProfileComponent, SummaryComponent, EditorComponent, RouterLink, NgFor, NgIf, ReactiveFormsModule],
+  imports: [ProfileComponent, SummaryComponent, EditorComponent, RouterLink, NgFor, NgIf, ReactiveFormsModule, NgClass],
   templateUrl: './view-post.component.html',
   styleUrls: ['./view-post.component.css']
 })
@@ -26,6 +32,7 @@ export class ViewPostComponent implements OnInit {
   profileData: any = {};
   comments: any = [];
   user_id: number = 0;
+  createBlog = false;
 
   constructor(
     private http: HttpClient,
@@ -126,11 +133,13 @@ export class ViewPostComponent implements OnInit {
           comment.formattedTime = this.formatDateTime(commentDate);
           return comment;
         });
+        this.loadLikesFromLocalStorage(); 
       },
       error => {
         console.error('Error fetching Comments:', error);
         this.errorMessage = 'Error fetching Comments';
       }
+      
     );
   }
 
@@ -191,5 +200,37 @@ export class ViewPostComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  toggleCreate() {
+    this.createBlog = !this.createBlog;
+  }
+  
+  toggleLikeAndCreate(Id: number) {
+    this.likeComment(Id);
+    this.toggleCreate();
+  }
+  
+  likeComment(Id: number) {
+    const comment = this.comments.find((comment: { Id: number; }) => comment.Id === Id);
+    if (comment) {
+      comment.hasLiked = !comment.hasLiked;
+      this.saveLikeToLocalStorage(Id, comment.hasLiked);
+    }
+  }
+  
+  saveLikeToLocalStorage(Id: number, hasLiked: boolean) {
+    const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+    likes[Id] = hasLiked;
+    localStorage.setItem('likes', JSON.stringify(likes));
+  }
+  
+  loadLikesFromLocalStorage() {
+    const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+    this.comments.forEach((comment: { Id: string | number; hasLiked: any; }) => {
+      if (likes[comment.Id] !== undefined) { // Make sure the key matches
+        comment.hasLiked = likes[comment.Id];
+      }
+    });
   }
 }

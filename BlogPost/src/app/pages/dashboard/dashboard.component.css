@@ -388,7 +388,6 @@ textarea::-webkit-scrollbar-thumb{
     color: #ffffff; /* Default color */
     
   }
-  
   .stylish-gray-button.liked .fa-heart {
     color: red; /* Color when liked */
   }

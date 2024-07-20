@@ -370,6 +370,31 @@ textarea::-webkit-scrollbar-thumb{
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
 }
+.stylish-gray-button {
+    background: #dcdcdc;
+    border: none;
+    border-radius: 8px;
+    color: #000000;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.stylish-gray-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.stylish-gray-button .fa-heart {
+    color: #000000; /* Default color */
+    
+  }
+  .stylish-gray-button.liked .fa-heart {
+    color: red; /* Color when liked */
+  }
+
 .comment_card {
     width: 430px; /* Adjust width for sidebar */
     margin-left: auto; /* Push to the right */
@@ -474,15 +499,6 @@ textarea::-webkit-scrollbar-thumb{
 .comment_footer{
     display: flex;
     opacity: 0.6;
-    justify-content: flex-end;
-    align-items: center;
-}
-.comment_footer button{
-    display: flex;
-    font-size: 1.5rem;
-    color: #2d2d2d;
-    opacity: 0.6;
-    outline: none;
     justify-content: flex-end;
     align-items: center;
 }

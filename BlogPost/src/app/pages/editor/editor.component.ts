@@ -3,7 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FileUploadService } from '../../services/file-upload.service';
+import { UploadService } from '../../services/upload.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-editor',
@@ -13,22 +14,21 @@ import { FileUploadService } from '../../services/file-upload.service';
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
-
-  currentFile?: File;
-  message = '';
   preview = '';
-
   addBlog: FormGroup;
   user_id: any;
   profileData: any = {};
   bannerPath: string = '';
+  fileToUpload: File | null = null;
+  content: string = ''; // Initialize with empty string
+  title: string = ''; // Initialize with empty string
+  author: string = ''; // Initialize with empty string
 
   constructor(
     private authService: AuthService,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private uploadService: FileUploadService
+    private router: Router
   ) {
     this.addBlog = this.formBuilder.group({
       title: new FormControl('', Validators.required),
@@ -48,6 +48,17 @@ export class EditorComponent implements OnInit {
     });
   }
 
+  handleFileInput(event: any): void {
+    this.fileToUpload = event.target.files[0];
+    if (this.fileToUpload) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.preview = e.target.result;
+      };
+      reader.readAsDataURL(this.fileToUpload);
+    }
+  }
+
   retrieveProfileData() {
     this.http.get(`http://localhost/post/text/api/get_profile/${this.user_id}`).subscribe(
       (resp: any) => {
@@ -64,60 +75,6 @@ export class EditorComponent implements OnInit {
     );
   }
 
-  selectFile(event: any): void {
-    this.message = '';
-    this.preview = '';
-    const selectedFiles = event.target.files;
-    if (selectedFiles) {
-      const file: File | null = selectedFiles.item(0);
-      if (file) {
-        this.preview = '';
-        this.currentFile = file;
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.preview = e.target.result;
-        };
-        reader.readAsDataURL(this.currentFile);
-      }
-    }
-  }
-
-  upload(): void {
-    if (this.currentFile) {
-      this.uploadService.upload(this.currentFile).subscribe({
-        next: (event: HttpEvent<any>) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            // Handle upload progress
-            const percentDone = Math.round(100 * event.loaded / (event.total ?? 1));
-            console.log('Upload progress:', percentDone + '%');
-          } else if (event instanceof HttpResponse) {
-            // Handle upload completion
-            console.log('Upload response:', event.body);
-            if (event.body && event.body.path) {
-              this.bannerPath = event.body.path;
-            } else {
-              console.error('Response does not contain a path');
-            }
-          } else {
-            console.log('Unexpected event type:', event);
-          }
-        },
-        error: (err: any) => {
-          console.error('Error uploading file:', err);
-          console.error('Error message:', err.message); // Log the error message
-          console.error('Error name:', err.name); // Log the error name
-          this.message = err.error?.message || 'Could not upload the image!';
-        },
-        complete: () => {
-          this.currentFile = undefined;
-        }
-      });
-    }
-  }
-  
-  
-  
-
   onSubmitPost(): void {
     if (this.addBlog.valid) {
       const post = { 
@@ -128,7 +85,11 @@ export class EditorComponent implements OnInit {
         .subscribe(
           (resp: any) => {
             alert('Post submitted successfully');
-            this.router.navigate(['/dashboard']);
+            if (this.fileToUpload) {
+              this.uploadFile(); // Call uploadFile after successful post submission
+            } else {
+              this.router.navigate(['/dashboard']);
+            }
           },
           (error: any) => {
             console.error('Error submitting post:', error);
@@ -137,6 +98,31 @@ export class EditorComponent implements OnInit {
     } else {
       console.warn('Form is not valid. Please check required fields.');
     }
+  }
+
+  uploadFile() {
+    if (!this.fileToUpload || !this.user_id) {
+      console.log('No file selected or user ID is missing.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.fileToUpload);
+    formData.append('user_id', this.user_id.toString());
+    formData.append('title', this.addBlog.get('title')?.value ?? '');
+    formData.append('author', this.addBlog.get('author')?.value ?? '');
+    formData.append('content', this.addBlog.get('content')?.value ?? '');
+
+    this.http.post('http://localhost/post/text/api/addPost', formData)
+        .subscribe(
+            response => {
+                console.log('Upload successful', response);
+                this.router.navigate(['/dashboard']);
+            },
+            error => {
+                console.error('Upload error', error);
+            }
+        );
   }
 
   logout(): void {

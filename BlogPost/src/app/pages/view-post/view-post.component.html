@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+
     <title>Blog</title>
 </head>
 <body>
@@ -46,7 +52,10 @@
                 </h3>
                 <p class="laman">{{ comment.content }}</p>
                 <div class="comment_footer">
-                    <button (click)="deleteComment(comment.Id)"><i class='bx bxs-trash-alt'></i></button>
+                    <button class="stylish-gray-button" (click)="toggleLikeAndCreate(comment.Id)" [ngClass]="{'liked': comment.hasLiked}">
+                        <div><i class="fa-solid fa-heart" [ngClass]="{'visible': comment.hasLiked}"></i></div>
+                    </button>
+                    <button class="stylish-gray-button" (click)="deleteComment(comment.Id)"><i class="fa-solid fa-trash"></i></button>
                 </div>
             </div>
         </div>

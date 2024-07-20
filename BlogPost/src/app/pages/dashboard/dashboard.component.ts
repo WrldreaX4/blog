@@ -14,9 +14,11 @@ interface Post {
   title: string;
   author: string;
   content: string;
+  image_path: string;
   date_created: string;
   formattedTime?: string; // Optional property
 }
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -26,6 +28,7 @@ interface Post {
 })
 export class DashboardComponent implements OnInit {
   posts: Post[] = [];
+  createBlog = false;
   filteredPosts: Post[] = [];
   userId: number | null = null;
   postId: number | null = null;
@@ -46,64 +49,62 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-
   formatDate(date: Date): string {
     const day = date.getDate();
     const month = date.getMonth() + 1; // Months are zero-indexed
     const year = date.getFullYear();
-    
+
     // Add leading zeroes for single digit day or month
     const dayStr = day < 10 ? `0${day}` : day;
     const monthStr = month < 10 ? `0${month}` : month;
-    
+
     return `${monthStr}-${dayStr}-${year}`;
   }
-  
+
   formatTime12Hour(date: Date): string {
     let hours = date.getHours();
     const minutes = date.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
-    
+
     hours = hours % 12;
     hours = hours ? hours : 12; // The hour '0' should be '12'
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-    
+
     return ` at ${hours} : ${formattedMinutes} ${ampm}`;
   }
-  
+
   formatDateTime(date: Date): string {
     const datePart = this.formatDate(date);
     const timePart = this.formatTime12Hour(date);
-    
+
     return `${datePart} ${timePart}`;
   }
-  
+
   retrievePosts(): void {
     console.log('Fetching posts...');
-    this.http.get<any>('http://localhost/post/text/api/allpost').subscribe(
-      (resp: any) => {
-        console.log('Posts Retrieved:', resp); 
-        if (resp && resp.data) {
-          this.posts = resp.data.map((post: Post) => {
-            // Assuming post.date_created is a string; convert to Date object
-            const postDate = new Date(post.date_created);
-            return {
-              ...post,
-              formattedTime: this.formatDateTime(postDate) // Add formatted time
-            };
-          });
-          this.applySearchFilter(); // Apply search filter after retrieving posts
-        } else {
-          console.error('Invalid response format:', resp);
+    this.http.get<any>('http://localhost/post/text/api/getallpost').subscribe(
+        (resp: any) => {
+            console.log('Posts Retrieved:', resp);
+            if (resp && resp.data) {
+                this.posts = resp.data.map((post: Post) => {
+                    console.log('Image Path:', post.image_path); // Verify the full URL
+                    const postDate = new Date(post.date_created);
+                    return {
+                        ...post,
+                        formattedTime: this.formatDateTime(postDate)
+                    };
+                });
+                this.loadLikesFromLocalStorage();
+                this.applySearchFilter();
+            } else {
+                console.error('Invalid response format:', resp);
+            }
+        },
+        (error) => {
+            console.error('Error fetching posts:', error);
         }
-      },
-      (error) => {
-        console.error('Error fetching posts:', error);
-      }
     );
   }
-  
-  
 
   applySearchFilter(): void {
     const term = this.searchTerm.toLowerCase();
@@ -111,24 +112,8 @@ export class DashboardComponent implements OnInit {
     this.showFilteredResults = true;
   }
 
-
-  likePost(postId: number): void {
-    const post = this.posts.find(p => p.post_Id === postId);
-    if (post) {
-      if (!post.hasLiked) {
-        post.likes! += 1;
-        post.hasLiked = true;
-        this.http.post(`http://localhost/post/text/api/update_likes/${postId}`, { likes: post.likes })
-          .subscribe(
-            () => console.log('Likes updated successfully'),
-            (error) => console.error('Error updating likes:', error)
-          );
-      }
-    }
-  }
-
-  sharePost(postId: number): void {
-    const post = this.posts.find(p => p.post_Id === postId);
+  sharePost(post_Id: number): void {
+    const post = this.posts.find(p => p.post_Id === post_Id);
     if (post) {
       if (navigator.share) {
         navigator.share({
@@ -146,8 +131,40 @@ export class DashboardComponent implements OnInit {
       }
     }
   }
-  
+
   logout(): void {
     this.authService.logout();
+  }
+
+  toggleCreate() {
+    this.createBlog = !this.createBlog;
+  }
+
+  toggleLikeAndCreate(postId: number) {
+    this.likePost(postId);
+    this.toggleCreate();
+  }
+
+  likePost(post_Id: number) {
+    const post = this.posts.find(p => p.post_Id === post_Id);
+    if (post) {
+      post.hasLiked = !post.hasLiked;
+      this.saveLikeToLocalStorage(post_Id, post.hasLiked);
+    }
+  }
+
+  saveLikeToLocalStorage(postId: number, hasLiked: boolean) {
+    const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+    likes[postId] = hasLiked;
+    localStorage.setItem('likes', JSON.stringify(likes));
+  }
+
+  loadLikesFromLocalStorage() {
+    const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+    this.posts.forEach(post => {
+      if (likes[post.post_Id] !== undefined) {
+        post.hasLiked = likes[post.post_Id];
+      }
+    });
   }
 }
