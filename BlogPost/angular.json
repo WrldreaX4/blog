@@ -100,10 +100,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "/app/assets/js/home.js",
-              "/app/assets/js/editor.js",
-              "/app/assets/js/firebase.js",
-              "/app/assets/js/blog.js"
             ]
           }
         }
