@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog : Homepage</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+
 <body>
     <nav class="navbar">
-        <img src="assets/post.png">
-        <p><a href="/dashboard" class="links">PostPonder.</a></p>   
+        <p><a href="/dashboard" class="links">PostHaven.</a></p>   
         <div class="search-box">
             <i class='bx bx-search-alt-2'></i>
             <input type="text" placeholder="Search here..." [(ngModel)]="searchTerm" (input)="applySearchFilter()">
@@ -28,9 +17,10 @@
 
     <header class="header">
         <div class="content">
-            <h2 style="font-style: italic" class="icon">POSTPONDER</h2>
-            <h2 class="no-fill">Constructive Thinking</h2>
-            <p>Where Thoughts Find Voice and Flourish</p>
+            <img>
+            <h2 style="font-style: italic" class="icon">POSTHAVEN</h2>
+            <h1 class="no-fill">Constructive Ideas</h1>
+            <p>A Haven for Creative Minds</p>
         </div>
     </header>
  
@@ -40,10 +30,10 @@
             <!-- Ensure the image path is correct and accessible -->
             <img *ngIf="post.image_path" [src]="post.image_path" class="blog-image" alt="Post image">
             <h1 class="blog-title">{{ post.title }}</h1>
-            <p class="blog-overview">{{ post.content | truncate:100 }}</p>
+            <p class="blog-overview">{{ post.content | truncate:150 }}</p>
             <p class="blog-author">Created By: {{ post.author }}</p>
             <p class="blog-date">{{ post.formattedTime }}</p>
-            <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more -></a>
+            <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more <i class='bx bx-right-arrow-alt'></i></a>
             <div class="displaybutton col-md-3 text-right">
                 <button class="stylish-gray-button" (click)="toggleLikeAndCreate(post.post_Id)" [ngClass]="{'liked': post.hasLiked}">
                     <div><i class="fa-solid fa-heart" [ngClass]="{'visible': post.hasLiked}"></i></div>
@@ -55,4 +45,4 @@
         </div>
     </section>
 </body>
-</html>
+

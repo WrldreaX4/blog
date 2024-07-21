@@ -1,4 +1,8 @@
 @import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
 
 *{
     margin: 0;
@@ -187,7 +191,7 @@ body{
 }
 .blog-image{
     width: 100%;
-    height: 350px;
+    height: 500px;
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -220,7 +224,7 @@ body{
 
 .banner{
     width: 100%;
-    height: 100px;
+    height: 90px;
     position: relative;
     background: #5E7D8C;
     background-size: cover;
@@ -251,7 +255,7 @@ body{
     margin-bottom: 1000px;
     padding: 50px 0;
     text-align: justify;
-    height: 800px;
+    height: 1500px;
 }
 
 .container{
@@ -366,8 +370,8 @@ textarea::-webkit-scrollbar-thumb{
 }
 .body{
     float: right;
-    margin-top: -100%;
-    height: 1830px;
+    margin-top: -138.5%;
+    height: 2520px;
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
 }
@@ -455,6 +459,7 @@ textarea::-webkit-scrollbar-thumb{
     overflow-x: hidden;
     overflow-y: scroll;
 }
+
 .comment_laman{
     padding: 10px;
     background-color: #fff;
@@ -466,6 +471,7 @@ textarea::-webkit-scrollbar-thumb{
 }
 .comment_laman h3{
     margin-bottom: 1rem;
+    
 }
 .comment_title{
     margin-left: 50px;

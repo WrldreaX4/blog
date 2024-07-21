@@ -104,7 +104,8 @@ export class SummaryComponent implements OnInit {
       this.http.post(`http://localhost/post/text/api/delete_post/${post_Id}`, {})
         .subscribe(
           () => {
-            this.posts = this.posts.filter((post: any) => post.post_Id !== post_Id);
+            console.log('Delete successful');
+            this.posts = this.posts.filter(post => post.post_Id !== post_Id);
           },
           error => {
             console.error('Error deleting report:', error);
@@ -112,6 +113,7 @@ export class SummaryComponent implements OnInit {
         );
     }
   }
+  
 
   logout(): void {
     this.authService.logout();
