@@ -13,28 +13,28 @@
           <li class="link-item"><a href="/editor" class="link">Create</a></li>
           <li class="link-item"><a href="/summary" class="link">Summary</a></li>
           <li class="link-item"><a href="/profile" class="link">Profile</a></li>
-          <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
+          <li class="link-item"><a href="#" class="link">Logout</a></li>
         </ul>
     </nav>
 
-    <div class="banner" [style.backgroundImage]="'url(' + bannerPath + ')'">
-        <img [src]="preview" class="preview" />
-        <input type="file" accept="image/*" id="banner-upload" (change)=" handleFileInput($event)" hidden>
+    <div class="banner" style="background-image: url('your-banner-path.jpg');">
+        <img src="your-preview.jpg" class="preview" alt="Preview"/>
+        <input type="file" accept="image/*" id="banner-upload" hidden>
         <label for="banner-upload" class="banner-upload-btn">
             <img src="assets/upload.png" alt="upload banner">
         </label>
     </div>
     
-    <form [formGroup]="addBlog">
+    <form class="container">
         <div class="blog">
-            <textarea type="text" formControlName="title" class="title" placeholder="Blog title..."></textarea>
-            <textarea type="text" formControlName="author" class="author" placeholder="Author..." [value]="profileData.username"></textarea>
-            <textarea type="text" formControlName="content" class="article" placeholder="Start writing here..."></textarea>
+            <textarea type="text" class="title" placeholder="Blog title..."></textarea>
+            <input type="hidden" class="author" placeholder="Author..." value="your-username">
+            <textarea type="text" class="article" placeholder="Start writing here..."></textarea>
         </div>
     </form>
     
     <div class="blog-options">
-        <button class="btn dark publish-btn" (click)="uploadFile()" type="submit">Submit</button>
+        <button class="btn dark publish-btn" type="submit">Submit</button>
         <a class="btn dark publish-btn" href="/dashboard">Back</a>
     </div>
 </body>

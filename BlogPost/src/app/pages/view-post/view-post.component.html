@@ -25,6 +25,7 @@
 
     <div class="container" id="blog-container">
         <div id="blog" class="blog" *ngIf="post">
+            <img *ngIf="post.image_path" [src]="post.image_path" class="blog-image" alt="Post image">
             <h1 class="title">{{ post.title }}</h1>
             <p class="author">Published By: {{ post.author }}</p>
             <p class="article">{{ post.content }}</p>

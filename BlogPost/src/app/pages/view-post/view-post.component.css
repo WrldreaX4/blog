@@ -187,10 +187,11 @@ body{
 }
 .blog-image{
     width: 100%;
-    height: 250px;
+    height: 350px;
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 10px;
+    text-align: justify;
     
 }
 
@@ -250,7 +251,7 @@ body{
     margin-bottom: 1000px;
     padding: 50px 0;
     text-align: justify;
-    height: 390px;
+    height: 800px;
 }
 
 .container{
@@ -365,8 +366,8 @@ textarea::-webkit-scrollbar-thumb{
 }
 .body{
     float: right;
-    margin-top: -77%;
-    height: 1400px;
+    margin-top: -100%;
+    height: 1830px;
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgba(81, 81, 81, 0.2), 0 6px 20px 0 rgba(80, 80, 80, 0.19);
 }
