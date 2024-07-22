@@ -40,7 +40,6 @@
                     <button class="stylish-gray-button" (click)="toggleLikeAndCreate(comment.Id)" [ngClass]="{'liked': comment.hasLiked}">
                         <div><i class="fa-solid fa-heart" [ngClass]="{'visible': comment.hasLiked}"></i></div>
                     </button>
-                    <button class="stylish-gray-button" (click)="deleteComment(comment.Id)"><i class="fa-solid fa-trash"></i></button>
                 </div>
             </div>
         </div>
