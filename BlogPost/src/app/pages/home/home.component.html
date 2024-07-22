@@ -1,14 +1,16 @@
 
 <body>
     <nav class="navbar">
-        <p><a href="/dashboard" class="links">PostHaven</a></p>   
+        <p><a href="/home" class="links">PostHaven</a></p>   
         <div class="search-box">
             <i class='bx bx-search-alt-2'></i>
             <input type="text" placeholder="Search here..." [(ngModel)]="searchTerm" (input)="applySearchFilter()">
         </div>     
 
         <ul class="links-container">
-            <li class="link-item"><a routerLink="/login" class="link btn">login</a></li>
+            <li class="link-item"><a routerLink="/editor" class="link">Create</a></li>
+            <li class="link-item"><a routerLink="/summary" class="link">Summary</a></li>
+            <li class="link-item"><a routerLink="/profile" class="link">Profile</a></li>
         </ul>
     </nav>
 
@@ -30,7 +32,7 @@
             <p class="blog-overview">{{ post.content | truncate:150 }}</p>
             <p class="blog-author">Created By: {{ post.author }}</p>
             <p class="blog-date">{{ post.formattedTime }}</p>
-            <a [routerLink]="['/blog/', post.post_Id]" class="btns">Read more <i class='bx bx-right-arrow-alt'></i></a>
+            <a [routerLink]="['/blogs/', post.post_Id]" class="btns">Read more <i class='bx bx-right-arrow-alt'></i></a>
             <div class="displaybutton col-md-3 text-right">
                 <button class="stylish-gray-button" (click)="toggleLikeAndCreate(post.post_Id)" [ngClass]="{'liked': post.hasLiked}">
                     <div><i class="fa-solid fa-heart" [ngClass]="{'visible': post.hasLiked}"></i></div>

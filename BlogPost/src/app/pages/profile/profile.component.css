@@ -328,6 +328,7 @@ textarea::-webkit-scrollbar-thumb{
     border: none;
     outline: none;
     cursor: pointer;
+    padding: 20px;
 }
 
 .btn.grey{
@@ -337,14 +338,20 @@ textarea::-webkit-scrollbar-thumb{
     font-size: 14px;
 }
 .btn{
+  font-size: 20px;
     padding: 20px 30px;
     border-radius: 50px;
+    margin-top: 20px;
     background: #5E7D8C;
     color: #fff;
     text-decoration: none;
     text-transform: capitalize;
 }
 
+.btn:hover{
+  background-color: #a5a5a5;
+  color: #2d2d2d;
+}
 
 .container{
   position: absolute;

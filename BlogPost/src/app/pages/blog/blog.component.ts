@@ -1,67 +1,115 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { FormGroup, FormsModule, Validators } from '@angular/forms';
+import { CommonModule, NgClass, NgFor, NgIf } from '@angular/common';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ProfileComponent } from '../profile/profile.component';
+import { SummaryComponent } from '../summary/summary.component';
+import { EditorComponent } from '../editor/editor.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink],
+  imports: [ProfileComponent, SummaryComponent, EditorComponent, RouterLink, NgFor, NgIf, ReactiveFormsModule, NgClass],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.css'
 })
 export class BlogComponent implements OnInit {
+
   post: any = {};
   post_Id: number = 0;
+  addComment!: FormGroup;
   errorMessage: string = '';
+  profileData: any = {};
+  comments: any = [];
+  user_id: number = 0;
+  createBlog = false;
 
-  comments: any;
-  commentForm!: FormGroup;
-  fb: any;
-  Id:number = 0;
-
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.addComment = this.formBuilder.group({
+      postedBy: [''],
+      content: ['', Validators.required]
+    });
+
     this.route.paramMap.subscribe(params => {
       this.post_Id = parseInt(params.get('id')!, 10);
       if (!isNaN(this.post_Id)) {
-        this.retrievePost(this.post_Id);
-
-        this.commentForm = this.fb.group({
-          postedBy: ["", Validators.required],
-          content: ["", Validators.required]
+        this.authService.getCurrentUser().subscribe(user => {
+          if (user) {
+            this.user_id = user.id;
+            this.retrieveProfileData();
+          } else {
+            console.log('No user logged in.');
+            this.router.navigate(['/login']);
+          }
         });
+        this.retrievePost(this.post_Id);
+        this.retrieveComments(this.post_Id);
       }
     });
   }
-  publishComment(): void {
-    if (this.commentForm.valid) {
-      const postedBy = this.commentForm.get("postedBy")?.value;
-      const content = this.commentForm.get("content")?.value; // Corrected to use "content"
 
-      this.authService.createComment(this.Id, postedBy, content).subscribe(
-        () => {
-          alert("Comment Published Successfully");
-        },
-        error => {
-          console.error('Error publishing comment:', error);
-          alert("Something Went Wrong!!!");
+  formatDate(date: Date): string {
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are zero-indexed
+    const year = date.getFullYear();
+  
+    // Add leading zeroes for single digit day or month
+    const dayStr = day < 10 ? `0${day}` : day;
+    const monthStr = month < 10 ? `0${month}` : month;
+  
+    return `${monthStr}/${dayStr}/${year}`;
+  }
+  
+  formatTime12Hour(date: Date): string {
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // The hour '0' should be '12'
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  
+    return `${hours}:${formattedMinutes} ${ampm}`;
+  }
+  
+  formatDateTime(date: Date): string {
+    const datePart = this.formatDate(date);
+    const timePart = this.formatTime12Hour(date);
+  
+    return `${datePart} ${timePart}`;
+  }
+
+  retrieveProfileData(): void {
+    this.http.get(`http://localhost/post/text/api/get_profile/${this.user_id}`).subscribe(
+      (resp: any) => {
+        if (resp.data && resp.data.length > 0) {
+          this.profileData = resp.data[0];
+          this.addComment.get('postedBy')?.setValue(this.profileData.username);
+        } else {
+          console.error('No data available');
         }
-      );
-    } else {
-      alert("Please fill out the form completely");
-    }
+      },
+      (error) => {
+        console.error('Error retrieving profile data', error);
+      }
+    );
   }
 
   retrievePost(post_Id: number): void {
     this.http.get(`http://localhost/post/text/api/postonly/${post_Id}`).subscribe(
       (resp: any) => {
-        console.log(resp);
         this.post = resp.data;
       },
       error => {
@@ -71,18 +119,55 @@ export class BlogComponent implements OnInit {
     );
   }
 
-  deletePost(post_Id: number): void {
-    const confirmed = confirm('Are you sure you want to delete this Blog?');
+  retrieveComments(post_Id: number): void {
+    this.http.get(`http://localhost/post/text/api/commentall/${post_Id}`).subscribe(
+      (resp: any) => {
+        this.comments = resp.data.map((comment: any) => {
+          const commentDate = new Date(comment.date_created);
+          comment.formattedTime = this.formatDateTime(commentDate);
+          return comment;
+        });
+        this.loadLikesFromLocalStorage(); 
+      },
+      error => {
+        console.error('Error fetching Comments:', error);
+        this.errorMessage = 'Error fetching Comments';
+      }
+      
+    );
+  }
+
+  deleteComment(Id: number): void {
+    const confirmed = confirm('Are you sure you want to delete this report?');
     if (confirmed) {
-      this.http.post(`http://localhost/post/text/api/delete_post/${post_Id}`, {})
+      this.http.delete(`http://localhost/post/text/api/delete_comment/${Id}`, {})
         .subscribe(
           () => {
-            this.router.navigate(['/dashboard']);
+            this.comments = this.comments.filter((comment: any) => comment.Id !== Id);
           },
           error => {
-            console.error('Error deleting Blog:', error);
+            console.error('Error deleting Comment:', error);
           }
         );
+    }
+  }
+
+  onSubmitComment(): void {
+    if (this.addComment.valid) {
+      const commentData = this.addComment.value;
+      this.http.post(`http://localhost/post/text/api/post_comment/${this.post_Id}`, commentData)
+        .subscribe(
+          (resp: any) => {
+            alert('Comment submitted successfully');
+            this.retrieveComments(this.post_Id); // Refresh comments
+            this.addComment.reset(); // Reset form after submission
+          },
+          (error: any) => {
+            console.error('Error submitting Comment:', error);
+          }
+        );
+    } else {
+      alert('Please fill out the form completely');
     }
   }
 
@@ -106,7 +191,40 @@ export class BlogComponent implements OnInit {
       console.error('The blog container was not found.');
     }
   }
-    logout(): void {
-      this.authService.logout();
+
+  logout(): void {
+    this.authService.logout();
+  }
+
+  toggleCreate() {
+    this.createBlog = !this.createBlog;
+  }
+  
+  toggleLikeAndCreate(Id: number) {
+    this.likeComment(Id);
+    this.toggleCreate();
+  }
+  
+  likeComment(Id: number) {
+    const comment = this.comments.find((comment: { Id: number; }) => comment.Id === Id);
+    if (comment) {
+      comment.hasLiked = !comment.hasLiked;
+      this.saveLikeToLocalStorage(Id, comment.hasLiked);
     }
+  }
+  
+  saveLikeToLocalStorage(Id: number, hasLiked: boolean) {
+    const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+    likes[Id] = hasLiked;
+    localStorage.setItem('likes', JSON.stringify(likes));
+  }
+  
+  loadLikesFromLocalStorage() {
+    const likes = JSON.parse(localStorage.getItem('likes') || '{}');
+    this.comments.forEach((comment: { Id: string | number; hasLiked: any; }) => {
+      if (likes[comment.Id] !== undefined) { // Make sure the key matches
+        comment.hasLiked = likes[comment.Id];
+      }
+    });
+  }
 }

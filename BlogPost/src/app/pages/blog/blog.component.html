@@ -1,49 +1,48 @@
 
 <body>
     <nav class="navbar">
-        <p><a routerLink="/dashboard" class="links">PostPonder.</a></p>
+        <p><a routerLink="/dashboard" class="links">PostHaven</a></p>
         <ul class="links-container">
-            <li class="link-item"><a routerLink="/editor" class="link">Create</a></li>
-            <li class="link-item"><a routerLink="/summary" class="link">Summary</a></li>
-            <li class="link-item"><a routerLink="/profile" class="link">Profile</a></li>
-            <li class="link-item"><a href="#" (click)="logout()" class="link">Logout</a></li>
+            <li class="link-item"><a href="/login"  class="link btn">Login</a></li>
         </ul>
     </nav>
 
-    <div class="banner"></div>
-    <div class="banner">
-        <input type="file" accept="image/*" id="banner-upload" hidden>
-        <label for="banner-upload" class="banner-upload-btn">
-            <img src="assets/upload.png" alt="upload banner">
-        </label>
-    </div>
-
     <div class="container" id="blog-container">
-        <form>
-            <div id="blog" class="blog" *ngIf="post">
-                <h1 class="title">{{ post.title }}</h1>
-                <p class="author">Published By: {{ post.author }}</p>
-                <p class="article">{{ post.content }}</p>
-            </div>
-        </form>
-    </div>
-
-    <div class="blog-options" *ngIf="post">
-        <button class="btn dark publish-btn" [routerLink]="['/editblog', post.post_Id]" type="button">Edit</button>
-        <!---<button class="btn dark publish-btn" type="button" (click)="downloadPDF()">Download PDF</button>--->
-        <button class="btn dark publish-btn" (click)="deletePost(post.post_Id)">Delete</button>
-    </div>
-
-    <!---<div class="body">
-    <div class="comment_card">
-        <h2>Publish Your Comment</h2>
-        <div>
-            <form [formGroup]="commentForm">
-                    <input type="text" formControlName="posetedBy" placeholder="Posted By">
-                    <textarea type="text" formControlName="CContent" placeholder="Type Your Comment"></textarea>
-                    <button type="submit">Submit Comment</button>
-                    
-            </form>
+        <div id="blog" class="blog" *ngIf="post">
+            <img *ngIf="post.image_path" [src]="post.image_path" class="blog-image" alt="Post image">
+            <h1 class="title">{{ post.title }}</h1>
+            <p class="author">Published By: {{ post.author }}</p>
+            <p class="article">{{ post.content }}</p>
         </div>
     </div>
-    </div>--->
+
+    <div class="body">
+       <!---- <section class="comment_card">
+            <h2 style="text-align: center;">Your Comment</h2>
+            <div>
+                <form [formGroup]="addComment" (ngSubmit)="onSubmitComment()">
+                    <input type="hidden" formControlName="postedBy" [value]="profileData.username">
+                    <textarea type="text" formControlName="content" placeholder="Type Your Comment"></textarea>
+                    <button type="submit">Submit Comment</button>
+                </form>
+            </div>
+        </section>--->
+
+        <div class="comment_section">
+            <h3>Comment</h3>
+            <div class="comment_laman" *ngFor="let comment of comments">
+                <img src="assets/user.png">
+                <h3 class="comment_title">{{ comment.postedBy }}
+                    <p class="date">Published On: {{ comment.formattedTime }}</p>
+                </h3>
+                <p class="laman">{{ comment.content }}</p>
+                <div class="comment_footer">
+                    <button class="stylish-gray-button" (click)="toggleLikeAndCreate(comment.Id)" [ngClass]="{'liked': comment.hasLiked}">
+                        <div><i class="fa-solid fa-heart" [ngClass]="{'visible': comment.hasLiked}"></i></div>
+                    </button>
+                    <button class="stylish-gray-button" (click)="deleteComment(comment.Id)"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

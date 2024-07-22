@@ -1,9 +1,12 @@
 
 <body>
     <nav class="navbar">
-        
-        <p>PostHaven</p>
-        
+        <p><a href="/home" class="links">PostHaven</a></p>        
+        <ul class="links-container">
+          <li class="link-item"><a href="/editor" class="link">Create</a></li>
+          <li class="link-item"><a href="/summary" class="link">Summary</a></li>
+          <li class="link-item"><a href="/profile" class="link">Profile</a></li>
+        </ul>
     </nav>
 
     <div class="banner">
@@ -20,7 +23,7 @@
     <div class="blog-options">
         <button class="btn dark publish-btn"(click)="onSubmitPost(post_Id)" type="submit">Submit</button>
         <input type="file" accept="image/*" id="image-upload" hidden>
-        <a class="btn dark publish-btn" href="/dashboard">Back</a>
+        <a class="btn dark publish-btn" href="/home">Back</a>
     </div>
 
 </body>

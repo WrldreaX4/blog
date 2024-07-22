@@ -8,14 +8,19 @@ import { SummaryComponent } from './pages/summary/summary.component';
 import { ViewPostComponent } from './pages/view-post/view-post.component';
 import { EditPostComponent } from './pages/edit-post/edit-post.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
 
     {
         path: '',
-        redirectTo: '/login',
+        redirectTo: '/dashboard',
         pathMatch: 'full'
       },
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+    },
       {
         path: 'login',
         component: LoginComponent
@@ -25,15 +30,15 @@ export const routes: Routes = [
         component: SignupComponent
     },
     {
-        path: 'dashboard',
-        component: DashboardComponent
-    },
-    {
         path: 'editor',
         component: EditorComponent
     },
     {
-        path: 'blog',
+        path: 'home',
+        component: HomeComponent
+    },
+    {
+        path: 'blog/:id',
         component: BlogComponent
     },
     {

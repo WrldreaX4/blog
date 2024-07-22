@@ -88,7 +88,7 @@ export class EditorComponent implements OnInit {
             if (this.fileToUpload) {
               this.uploadFile(); // Call uploadFile after successful post submission
             } else {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/home']);
             }
           },
           (error: any) => {
